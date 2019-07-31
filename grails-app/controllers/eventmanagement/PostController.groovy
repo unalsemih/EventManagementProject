@@ -1,14 +1,17 @@
 package eventmanagement
 
 import grails.plugin.springsecurity.annotation.Secured
+import javafx.geometry.Pos
 
 class PostController {
     def springSecurityService
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def posts() {
-        def staffList = Post.executeQuery("SELECT * from Post )
-        println(staffList)
+        println("deneme username"+Post.get(5).title);
+        println("deneme username"+Person.get(2).username);
 
+        println("post sayısı : " + post.size())
+        println(post)
         render(view: 'posts')
     }
 
@@ -26,7 +29,8 @@ class PostController {
 
         def roleAdmin = Role.findByAuthority("ROLE_ADMIN")
         if(person.authorities.contains(roleAdmin))
-            render "Hello Admin"
+            redirect(action:'posts')
+        // render "Hello Admin"
 
     }
 }
