@@ -17,7 +17,7 @@ class BootStrap {
             }
 
             //Person2
-            def role2 = new Role(authority: 'ROLE_DEFAULT').save()
+            def role2 = new Role(authority: 'ROLE_USER').save()
 
             def me2 = new Person(username: 'ahmet', password: '123').save()
 
