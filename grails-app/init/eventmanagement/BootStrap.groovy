@@ -28,6 +28,7 @@ class BootStrap {
                 it.clear()
             }
 
+            Post post = new Post(title: 'title1',description: 'description2',number: '20',username: 'semih').save()
     }
     def destroy = {
     }
