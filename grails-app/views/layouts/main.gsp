@@ -49,7 +49,18 @@
                     <i class="fa fa-envelope-o">
                         <span class="badge badge-primary">11</span>
                     </i>
-                    kullaniciadi
+                            <sec:ifLoggedIn>
+                                <g:if test="${currentUser}">
+                                    ${currentUser.username}
+                                </g:if>
+                                <g:else>
+                                    User
+                                </g:else>
+
+                            </sec:ifLoggedIn>
+                            <sec:ifNotLoggedIn>
+                                User
+                            </sec:ifNotLoggedIn>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="#">Action</a>

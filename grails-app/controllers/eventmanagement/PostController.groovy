@@ -13,12 +13,20 @@ class PostController {
         println(Post.getAll().size())
 
         def Allposts = Post.getAll()
+        def currentUser = springSecurityService.getCurrentUser()
 
-
-        render(view:'posts',model:[allposts:Allposts])
+        render(view:'posts',model:[allposts:Allposts,currentUser:currentUser])
 
     }
 
+    @Secured(['ROLE_ADMIN'])
+    def createPost() {
+        def post = new Post(params)
+
+        post.save(flush: true)
+        redirect(action:'posts')
+
+    }
 
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
