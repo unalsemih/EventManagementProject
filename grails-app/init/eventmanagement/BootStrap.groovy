@@ -28,7 +28,11 @@ class BootStrap {
                 it.clear()
             }
 
-            Post post = new Post(title: 'title1',description: 'description2',number: '20',username: 'semih').save()
+            def a= new Post(title: 'Title1',description: 'Description1',number: '20',username: 'Semih').save(flush: true)
+            def b= new Post(title: 'Title2',description: 'Description2',number: '21',username: 'Cuma').save(flush: true)
+            def c= new Post(title: 'Title1',description: 'Description1',number: '22',username: 'Ahmet').save(flush: true)
+            new Post(title: 'Title2',description: 'Description2',number: '23',username: 'Mehmet').save(flush: true)
+       //     new Participation(PostId: a.id, username: me.username).save()
     }
     def destroy = {
     }

@@ -7,12 +7,16 @@ class PostController {
     def springSecurityService
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def posts() {
-        println("deneme username"+Post.get(5).title);
-        println("deneme username"+Person.get(2).username);
 
-        println("post sayısı : " + post.size())
-        println(post)
-        render(view: 'posts')
+
+        //Post.getAll()
+        println(Post.getAll().size())
+
+        def Allposts = Post.getAll()
+
+
+        render(view:'posts',model:[allposts:Allposts])
+
     }
 
 
@@ -29,8 +33,9 @@ class PostController {
 
         def roleAdmin = Role.findByAuthority("ROLE_ADMIN")
         if(person.authorities.contains(roleAdmin))
+          //  redirect(action:'posts')
+          //  render "Hello Admin"
             redirect(action:'posts')
-        // render "Hello Admin"
-
+        //daha sonra farklı sayfalara yönlendirme yapılabilir
     }
 }

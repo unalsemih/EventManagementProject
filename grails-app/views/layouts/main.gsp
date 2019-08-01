@@ -49,13 +49,20 @@
                     <i class="fa fa-envelope-o">
                         <span class="badge badge-primary">11</span>
                     </i>
-                    Dropdown
+                    kullaniciadi
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="#">Action</a>
                     <a class="dropdown-item" href="#">Another action</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
+                    <sec:ifLoggedIn>
+                    <g:form controller="logout">
+                        <g:submitButton class="dropdown-item" name="logout" value="Logout" />
+                    </g:form>
+                    </sec:ifLoggedIn>
+                    <sec:ifNotLoggedIn>
+                        <a class="dropdown-item" href="${createLink(controller: 'login', action: 'auth')}">Login</a>
+                    </sec:ifNotLoggedIn>
                 </div>
             </li>
         </ul>
@@ -93,6 +100,7 @@
     </div>
 
     <asset:javascript src="application.js"/>
+
 
 </body>
 </html>

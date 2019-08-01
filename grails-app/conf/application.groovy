@@ -5,6 +5,7 @@ grails.plugin.springsecurity.userLookup.userDomainClassName = 'eventmanagement.P
 grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'eventmanagement.PersonRole'
 grails.plugin.springsecurity.authority.className = 'eventmanagement.Role'
 grails.plugin.springsecurity.fii.rejectPublicInvocations = false
+grails.plugin.springsecurity.logout.postOnly = false
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	[pattern: '/',               access: ['permitAll']],
 	[pattern: '/error',          access: ['permitAll']],
