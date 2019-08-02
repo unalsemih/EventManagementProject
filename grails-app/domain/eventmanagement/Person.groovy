@@ -17,6 +17,7 @@ class Person implements Serializable {
 	boolean accountExpired
 	boolean accountLocked
 	boolean passwordExpired
+	byte[] photo
 
 	Set<Role> getAuthorities() {
 		(PersonRole.findAllByPerson(this) as List<PersonRole>)*.role as Set<Role>
@@ -25,6 +26,8 @@ class Person implements Serializable {
 	static constraints = {
 		password blank: false, password: true
 		username blank: false, unique: true
+		photo maxSize: 1024 * 1024 * 2
+		photo nullable: true
 	}
 
 	static mapping = {

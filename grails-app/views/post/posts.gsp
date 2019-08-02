@@ -62,7 +62,8 @@
             <td> ${post.post.description}</td>
             <td>${post.post.username}</td>
             <g:if test="${post.status==false}">
-            <td><g:link class="btn btn-success" controller="post" action="join" params="[postId: post.post.id]">Katıl</g:link></td>
+            <td><g:link class="btn btn-success" controller="post" action="join" params="[postId: post.post.id]">
+                Katıl</g:link></td>
             </g:if>
             <g:if test="${post.status==true}">
                 <td><g:link class="btn btn-danger" controller="post" action="notJoin" params="[postId: post.post.id]">Çık</g:link></td>
