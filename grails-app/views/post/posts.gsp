@@ -15,10 +15,18 @@
 <body>
 <div class="container">
 
-    <sec:ifAllGranted roles="ROLE_USER">
-        secure stu
-    </sec:ifAllGranted>
 
+    <g:if test="${messageText}">
+
+    <div class="alert alert-danger mt-4 mb-0 alert-dismissible fade show" role="alert">
+        <strong>${messageText}</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+
+    </g:if>
 
     <div class="row mt-5">
         <div class="card shadow-lg p-3 mb-5 bg-white rounded" style="width: 75rem; margin:0px auto;">
@@ -31,9 +39,9 @@
         <th scope="col">Title</th>
         <th scope="col">Description</th>
         <th scope="col">Username</th>
-        <sec:ifAllGranted roles="ROLE_USER">
+
         <th scope="col">Durum</th>
-        </sec:ifAllGranted>
+
         <sec:ifAllGranted roles="ROLE_ADMIN">
             <th scope="col">Katılım</th>
 
@@ -45,19 +53,22 @@
 
 
 
-    <g:each var="post" in="${allposts}">
+    <g:each var="post" in="${listPost}">
 
         <tr>
-            <th scope="row">3</th>
+            <th scope="row">${post.post.id}</th>
 
-            <td>${post.title}</td>
-            <td> ${post.description}</td>
-            <td>${post.username}</td>
-            <sec:ifAllGranted roles="ROLE_USER">
-                <td><button class="btn btn-success">Katıl</button></td>
-            </sec:ifAllGranted>
+            <td>${post.post.title}</td>
+            <td> ${post.post.description}</td>
+            <td>${post.post.username}</td>
+            <g:if test="${post.status==false}">
+            <td><g:link class="btn btn-success" controller="post" action="join" params="[postId: post.post.id]">Katıl</g:link></td>
+            </g:if>
+            <g:if test="${post.status==true}">
+                <td><g:link class="btn btn-danger" controller="post" action="notJoin" params="[postId: post.post.id]">Çık</g:link></td>
+            </g:if>
             <sec:ifAllGranted roles="ROLE_ADMIN">
-                <td>${post.number}</td>
+                <td>${post.post.number}</td>
             </sec:ifAllGranted>
 
         </tr>
@@ -105,14 +116,15 @@
 
                         <div class="form-group">
                             <label for="username">Username</label>
-                            <g:field type="text" name="username" class="form-control" />
+                            <g:field type="text" name="username" class="form-control" readonly value="${currentUser.username}" />
                         </div>
                     </fieldset>
+                    <div class="col-md-12 text-center">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
-                    <fieldset class="buttons">
-                        <g:submitButton name="create" value="Oluştur" class="btn btn-success form-control" />
-                    </fieldset>
+                        <g:submitButton name="create" value="Oluştur" class="btn btn-success " />
 
+                    </div>
 
                 </g:form>
 

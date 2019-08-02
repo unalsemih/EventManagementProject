@@ -5,17 +5,37 @@ import javafx.geometry.Pos
 
 class PostController {
     def springSecurityService
+    def messageText
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def posts() {
-
-
         //Post.getAll()
-        println(Post.getAll().size())
+        int size = Post.getAll().size()
 
-        def Allposts = Post.getAll()
+        def Allposts = (Post.getAll()).sort{it.id}
+        PostUserEventStatus[] listPost = new PostUserEventStatus[size];
+
+
+        println("---")
+        for (int i=0; i<size; i++) {
+
+            PostUserEventStatus postStatus = new PostUserEventStatus();
+            postStatus.post = Allposts[i]
+
+            Participation a = Participation.findByPostIdAndUsername(Allposts[i].getId(), springSecurityService.getCurrentUser().username)
+            if(a!=null)
+                postStatus.status=true
+            else
+                postStatus.status=false
+            println(postStatus.status)
+            listPost[i] = postStatus
+
+        }
+
+
+
         def currentUser = springSecurityService.getCurrentUser()
 
-        render(view:'posts',model:[allposts:Allposts,currentUser:currentUser])
+        render(view:'posts',model:[allposts:Allposts,currentUser:currentUser,messageText:messageText,listPost:listPost])
 
     }
 
@@ -46,4 +66,64 @@ class PostController {
             redirect(action:'posts')
         //daha sonra farklı sayfalara yönlendirme yapılabilir
     }
+
+    @Secured(['ROLE_ADMIN','ROLE_USER'])
+    def join(int postId){
+/*
+        def query = Participation.where {
+            username:'semihunal'
+            postId:postId
+        }
+        Participation c =
+  */
+
+        Participation a = Participation.findByPostIdAndUsername(postId,springSecurityService.getCurrentUser().username)
+        if(a==null) // kullanıcı katılmamış ... katılma işlemi burada yapılıyor...
+        {
+            def participation = new Participation(username: springSecurityService.getCurrentUser().username ,postId:postId)
+            participation.save(flush: true)
+            def post = Post.get(postId);
+            post.number+=1;
+            post.save(flush:true)
+
+        }
+        else {
+            messageText = "Zaten bu etkinliğe katıldınız!"
+            println("else e girdi")
+
+        }
+            redirect(action:'posts')
+        //println("post : " + post + Post.get(7).title)
+        //render "postId"+postId + " -- " + participation.getUsername() + " -- " + participation.getPostId()
+
+    }
+
+    @Secured(['ROLE_ADMIN','ROLE_USER'])
+    def notJoin(int postId){
+
+        Participation a = Participation.findByPostIdAndUsername(postId, springSecurityService.getCurrentUser().username)
+        if(a!=null) // kullanıcı katılmamış ... katılma işlemi burada yapılıyor...
+        {
+            a.delete(flush: true)
+            def post = Post.get(postId);
+            post.number-=1;
+            post.save(flush:true)
+
+        }
+        else {
+            messageText = "Etkinliğe Katılmadınız!"
+            println("else e girdi")
+
+        }
+        redirect(action:'posts')
+        //println("post : " + post + Post.get(7).title)
+        //render "postId"+postId + " -- " + participation.getUsername() + " -- " + participation.getPostId()
+
+    }
+
+}
+
+class PostUserEventStatus{
+    public Post post
+    public boolean status
 }
