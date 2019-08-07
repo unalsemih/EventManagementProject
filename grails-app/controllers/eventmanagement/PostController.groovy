@@ -103,10 +103,15 @@ class PostController {
     }
 
     @Secured(['ROLE_ADMIN'])
-    def jsUpdatePost() {
-
-        println("deneme")
-
+    def updatePost() {
+        def post = Post.get(params.id)
+        if(post!=null) {
+            post.startDate = params.startDate
+            post.endDate = params.endDate
+            post.save(flush=true)
+        }
+        else
+            println("post bulunamadı...")
     }
 
 

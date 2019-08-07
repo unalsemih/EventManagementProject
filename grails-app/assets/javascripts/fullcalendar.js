@@ -484,7 +484,7 @@
 
 
         function refetchEvents() { // can be called as an API method
-
+            console.log("YENİLENDİ.");
             clearEvents();
             fetchAndRenderEvents();
         }
@@ -495,10 +495,10 @@
                 return obj._id===modifiedEventID
             })[0];
 
-            console.log(post.reelId);
+          //  console.log(post.reelId);
             clearEvents();
             renderEvents(modifiedEventID);
-            eventPostUpdate(post.reelId,post.start,post.end);
+           // eventPostUpdate(post.reelId,post.start,post.end);
         }
 
 
@@ -598,6 +598,7 @@
 
 
         function select(start, end, allDay) {
+            alert("deneme");
             currentView.select(start, end, allDay===undefined ? true : allDay);
         }
 
@@ -979,16 +980,20 @@
             cache = [];
             var fetchID = ++currentFetchID;
             var len = sources.length;
+            console.log("len:"+len.toString());
             pendingSourceCnt = len;
             for (var i=0; i<len; i++) {
                 fetchEventSource(sources[i], fetchID);
+                console.log(sources[i]);
+                console.log("Fetch Id: " + fetchID);
+            console.log("kackere");
             }
         }
 
 
         function fetchEventSource(source, fetchID) {
             console.log("fetch event");
-            console.log(source);
+            console.log(source.events);
             _fetchEventSource(source, function(events) {
                 if (fetchID == currentFetchID) {
                     if (events) {
@@ -1112,6 +1117,7 @@
 
 
         function addEventSource(source) {
+
             source = _addEventSource(source);
             if (source) {
                 pendingSourceCnt++;
@@ -1153,7 +1159,7 @@
 
 
         function updateEvent(event) { // update an existing event
-            alert("update");
+
             var i, len = cache.length, e,
                 defaultEventEnd = getView().defaultEventEnd, // getView???
                 startDelta = event.start - event._start,
@@ -1235,6 +1241,7 @@
         }
 
         function renderEvent(event, stick) {
+          //  alert("");
             console.log("aa"+"denemee");
             console.log(event.start);
             console.log("title"+ event.title);
@@ -5961,6 +5968,7 @@ function enableTextSelection(element) {
 
 
         function select(startDate, endDate, allDay) {
+
             unselect();
             if (!endDate) {
                 endDate = defaultSelectionEnd(startDate, allDay);
@@ -6145,6 +6153,7 @@ function enableTextSelection(element) {
 
 
         t.stop = function() {
+            //alert("ab");
             $(document).unbind(bindType, mouse);
             return cell;
         };

@@ -13,9 +13,7 @@
     <asset:stylesheet src="fullcalendar.css"/>
     <asset:stylesheet src="fullcalendar.print.css"/>
 
-    <asset:javascript src="fullcalendar.js"/>
 
-    <asset:javascript src="calendarScript.js"/>
 </head>
 
 <body>
@@ -35,7 +33,7 @@
     </g:if>
     <div class="col-md-12 text-center">
         <div class="btn-group btn-group-justified" data-toggle="buttons" role="group" aria-label="Basic example" >
-            <a href="#listView" class="btn btn-secondary " data-toggle="tab">Liste Görünümü</a>
+            <a href="#listView" id="listViewLink" class="btn btn-secondary " data-toggle="tab">Liste Görünümü</a>
 
             <a href="#calendarView" class="btn btn-secondary" data-toggle="tab">Takvim Görünümü</a>
         </div>
@@ -271,6 +269,10 @@
 
 
     <!-- User List Modal -->
+    <asset:javascript src="fullcalendar.js"/>
+
+    <asset:javascript src="calendarScript.js"/>
+
     <asset:javascript src="jquery-2.2.0.min.js"/>
     <asset:javascript src="jquery-ui.custom.min.js"/>
     <script>
@@ -278,6 +280,8 @@
 
             /*Full Calendar Begin*/
             $("#createEventBtn").click(function () {
+
+
                 $.ajax({
                     type: "POST",
                     url: "/post/jsCreatePost/",
@@ -290,39 +294,66 @@
                         endDate: $("#endDateCalendar").val()
                     },
                     success: function (data) {
-                        alert("Post Ekleme Başarılı");
+                      //  alert("Post Ekleme Başarılı");
+                        durum=0;
+                        $('#calendar').fullCalendar('removeEvents');
+                        getEvents();
+                        $('#messageModal').modal('show');
+                        $('#eventCreateModal').modal('hide');
+                        $('#messageText').text("Etkinlik başarılı bir şekilde oluşturuldu!");
                     },
                     error: function () {
-                        alert("Başarısız");
+                        $('#eventCreateModal').modal('hide');
+                        $('#messageModal').modal('show');
+                        $('#messageText').text("Etkinlik oluşturulamadı!");
 
                     }
                 });
-
             });
-            /*Full Calendar End*/
 
+
+            /*Full Calendar End*/
+            function getEvents() {
+                var postList = [];
+                var eventList = [];
+                $.getJSON("/post/postsJson/", function (data) {
+                    var items = [];
+                    $.each(data, function (item, val) {
+
+                        postList.push(val);
+                        console.log(postList.length);
+                    });
+
+                    //Converting...
+
+                    for (var i = 0; i < postList.length; i++) {
+                        //  eventList.push({title:postList[i].title,start:new Date(postList[i].startDate),end:new Date(postList[i].endDate),allDay:true,className:"important",allDay:true,url:"www.google.com",reelId:postList[i].id});
+                        var evnt =  {
+                            title: postList[i].title,
+                            start: new Date(postList[i].startDate),
+                            end: new Date(postList[i].endDate),
+                            allDay: true,
+                            className: "important",
+                            allDay: true,
+                            url: "www.google.com",
+                            reelId: postList[i].id
+                        };
+                        console.log(evnt);
+                        $('#calendar').fullCalendar('renderEvent', evnt);
+                    }
+                    console.log(eventList);
+
+
+                });
+            }
+
+
+            $("#listViewLink").click(function () {
+                if(durum!=1)
+                    location.reload();
+            })
         });
     </script>
-    <script>
-        function  eventPostUpdate(id,start,end) {
-           // console.log(convertMyDate(start));
-            $.ajax({
-                type: "POST",
-                url: "/post/jsUpdatePost",
-                data: {
-                    id:id,
-                    startDate:start,
-                    endDate: end
-                },
-                success: function (data) {
-                    alert("Post Ekleme Başarılı");
-                },
-                error: function () {
-                    alert("Başarısız");
 
-                }
-            });
-        }
-    </script>
 </body>
 </html>

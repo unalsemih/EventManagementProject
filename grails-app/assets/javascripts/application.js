@@ -51,4 +51,4 @@ function userList(id) {
     });
 }
 
-
+var durum = 1;

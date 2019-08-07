@@ -4,19 +4,6 @@
 
 $(document).ready(function() {
 
-    function addHourtoDate(stringDate,hours){
-        var date = new Date(stringDate);
-        if((date.getHours()+hours)>=24)
-        {
-            date.setHours(date.getHours()+hours-24);
-            date.setDate(date.getDate()+1);
-        }
-        else
-            date.setHours(date.getHours()+hours);
-        return date;
-    }
-
-
     function convertMyDate(date){
         console.log(date);
         var year = date.getFullYear();
@@ -58,7 +45,7 @@ $(document).ready(function() {
 
         for (var i=0; i<postList.length; i++)
         {
-            eventList.push({title:postList[i].title,start:new Date(postList[i].startDate),end:new Date(postList[i].endDate),allDay:true,className:"important",allDay:true,reelId:postList[i].id});
+            eventList.push({title:postList[i].title,start:new Date(postList[i].startDate),end:new Date(postList[i].endDate),allDay:true,className:"important",allDay:true,url:"www.google.com",reelId:postList[i].id});
         }
         console.log(eventList);
 
@@ -118,7 +105,7 @@ $(document).ready(function() {
             center: 'agendaDay,agendaWeek,month',
             right: 'prev,next today'
         },
-        editable: true,
+        editable: false,
         firstDay: 1, //  1(Monday) this can be changed to 0(Sunday) for the USA system
         selectable: true,
         defaultView: 'month',
@@ -142,8 +129,7 @@ $(document).ready(function() {
             $('#eventCreateModal').modal('show');
             $("#startDateCalendar").val(convertMyDate(start));
             $("#endDateCalendar").val(convertMyDate(end));
-
-            var title = "s";//prompt('Event Title:');
+            var title = "";//prompt('Event Title:');
             if (title) {
                 calendar.fullCalendar('renderEvent',
                     {
@@ -184,7 +170,22 @@ $(document).ready(function() {
 
         events: eventList,
     });
-    console.log("deneme");
-    console.log(calendar.events);
+
+        calendar.fullCalendar('updateEvent',
+            {
+                title: "123",
+                start: new Date("Tue Jul 30 2019 00:00:00"),
+                end: new Date("Sat Aug 10 2019 13:25:00"),
+                allDay: true
+            },
+            true // make the event "stick"
+        );
+
+        console.log(calendar);
+        console.log("deneme");
+
     });
+
+
+
 });
