@@ -303,6 +303,26 @@
 
         });
     </script>
+    <script>
+        function  eventPostUpdate(id,start,end) {
+           // console.log(convertMyDate(start));
+            $.ajax({
+                type: "POST",
+                url: "/post/jsUpdatePost",
+                data: {
+                    id:id,
+                    startDate:start,
+                    endDate: end
+                },
+                success: function (data) {
+                    alert("Post Ekleme Başarılı");
+                },
+                error: function () {
+                    alert("Başarısız");
 
+                }
+            });
+        }
+    </script>
 </body>
 </html>

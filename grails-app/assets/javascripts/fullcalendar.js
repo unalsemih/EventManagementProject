@@ -334,6 +334,7 @@
 
 
         function changeView(newViewName) {
+
             if (!currentView || newViewName != currentView.name) {
                 _changeView(newViewName);
             }
@@ -368,6 +369,7 @@
 
 
         function renderView(inc) {
+
             if (
                 !currentView.start || // never rendered before
                 inc || date < currentView.start || date >= currentView.end // or new date range
@@ -412,6 +414,7 @@
 
 
         function updateSize() {
+
             if (elementVisible()) {
                 unselect();
                 clearEvents();
@@ -481,15 +484,23 @@
 
 
         function refetchEvents() { // can be called as an API method
+
             clearEvents();
             fetchAndRenderEvents();
         }
 
 
         function rerenderEvents(modifiedEventID) { // can be called as an API method
+            var post = events.filter(obj =>{
+                return obj._id===modifiedEventID
+            })[0];
+
+            console.log(post.reelId);
             clearEvents();
             renderEvents(modifiedEventID);
+            eventPostUpdate(post.reelId,post.start,post.end);
         }
+
 
 
         function renderEvents(modifiedEventID) { // TODO: remove modifiedEventID hack
@@ -497,9 +508,31 @@
                 currentView.setEventData(events); // for View.js, TODO: unify with renderEvents
                 currentView.renderEvents(events, modifiedEventID); // actually render the DOM elements
                 currentView.trigger('eventAfterAllRender');
+            //    console.log(events)
             }
         }
 
+        function convertMyDate(date){
+            date= new Date(date);
+            var year = date.getFullYear();
+            var month = (date.getMonth());
+            var day = date.getDate();
+            console.log("Date: "+date.getDate());
+            var hour = date.getHours();
+            var minute = date.getMinutes();
+
+            if(month<10)
+                month = "0"+(date.getMonth()+1);
+            if(day<10)
+                day = "0"+date.getDate();
+            if(hour<10)
+                hour = "0"+date.getHours();
+            if(minute<10)
+                minute="0"+date.getMinutes();
+            var stringDate =year + "-"+  month+"-"+day+"T"+hour+":"+minute;
+
+            return stringDate;
+        }
 
         function clearEvents() {
             currentView.triggerEventDestroy(); // trigger 'eventDestroy' for each event
@@ -1120,7 +1153,7 @@
 
 
         function updateEvent(event) { // update an existing event
-            console.log("updateeVENT");
+            alert("update");
             var i, len = cache.length, e,
                 defaultEventEnd = getView().defaultEventEnd, // getView???
                 startDelta = event.start - event._start,
@@ -4367,6 +4400,7 @@ function enableTextSelection(element) {
                     }
                 },
                 stop: function(ev, ui) {
+
                     trigger('eventResizeStop', this, event, ev, ui);
                     if (snapDelta) {
                         eventResize(this, event, 0, snapMinutes*snapDelta, ev, ui);
@@ -4811,6 +4845,7 @@ function enableTextSelection(element) {
 
 
         function eventResize(e, event, dayDelta, minuteDelta, ev, ui) {
+
             var eventId = event._id;
             elongateEvents(eventsByID[eventId], dayDelta, minuteDelta);
             trigger(

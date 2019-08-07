@@ -102,6 +102,13 @@ class PostController {
         }
     }
 
+    @Secured(['ROLE_ADMIN'])
+    def jsUpdatePost() {
+
+        println("deneme")
+
+    }
+
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def index() {

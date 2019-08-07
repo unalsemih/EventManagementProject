@@ -58,7 +58,7 @@ $(document).ready(function() {
 
         for (var i=0; i<postList.length; i++)
         {
-            eventList.push({title:postList[i].title,start:new Date(postList[i].startDate),end:new Date(postList[i].endDate),allDay:true,className:"important",allDay:true});
+            eventList.push({title:postList[i].title,start:new Date(postList[i].startDate),end:new Date(postList[i].endDate),allDay:true,className:"important",allDay:true,reelId:postList[i].id});
         }
         console.log(eventList);
 
