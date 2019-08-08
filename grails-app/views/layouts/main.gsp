@@ -306,9 +306,7 @@
 <div class="modal fade bd-example-modal-lg" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <g:if test="${message}">
-                ${message}
-            </g:if>
+
             <div class="modal-header">
                 <h5 class="modal-title" id="">Bilgi</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -325,5 +323,8 @@
         </div>
     </div>
 </div>
+
+
+
 </body>
 </html>

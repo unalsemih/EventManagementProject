@@ -52,3 +52,42 @@ function userList(id) {
 }
 
 var durum = 1;
+
+function convertMyDate(date){
+    console.log(date);
+    var year = date.getFullYear();
+    var month = (date.getMonth());
+    var day = date.getDate();
+    console.log("Date: "+date.getDate());
+    var hour = date.getHours();
+    var minute = date.getMinutes();
+
+    if(month<10)
+        month = "0"+(date.getMonth()+1);
+    if(day<10)
+        day = "0"+date.getDate();
+    if(hour<10)
+        hour = "0"+date.getHours();
+    if(minute<10)
+        minute="0"+date.getMinutes();
+    var stringDate =year + "-"+  month+"-"+day+"T"+hour+":"+minute;
+
+    return stringDate;
+}
+
+function eventClickFunction(id)
+{
+    var eventObj = ($("#calendar").fullCalendar( 'clientEvents'))[id];
+    console.log(eventObj);
+    // alert(""+eventObj.title);
+    $("#eventInfoModal").modal("show");
+    $("#titleInfo").val(eventObj.title);
+    $("#descriptionInfo").val(eventObj.description);
+    $("#quotaInfo").val(eventObj.quota);
+    $("#numberInfo").val(""+eventObj.number+"/"+eventObj.quota);
+    $("#usernameInfo").val(eventObj.username);
+    $("#startDateInfo").val(convertMyDate(eventObj.start));
+    $("#endDateInfo").val(convertMyDate(eventObj.end));
+}
+
+

@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat
 
 class PostController {
     def springSecurityService
-    def messageText
+    def messageText=""
 
 
     def currentUserAvatar(){
@@ -72,7 +72,8 @@ class PostController {
 
            // post.number=0;
             post.save(flush: true)
-         //   redirect(action:'posts')
+           // messageText = "Etkinliğiniz oluşturuldu!"
+            redirect(action:'posts')
 
         }
         catch (Exception e)

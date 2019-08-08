@@ -901,8 +901,8 @@
 
 
         function disableButton(buttonName) {
-            element.find('span.fc-button-' + buttonName)
-                .addClass(tm + '-state-disabled');
+         //   element.find('span.fc-button-' + buttonName)
+         //       .addClass(tm + '-state-disabled');
         }
 
 
@@ -1301,6 +1301,7 @@
             }
             return cache; // else, return all
         }
+
 
 
 
@@ -5433,7 +5434,9 @@ function enableTextSelection(element) {
             var skinCss = getSkinCss(event, opt);
 
             if (url) {
-                html += "<a href='" + htmlEscape(url) + "'";
+
+//değiştirilecek ....
+                     html += "<a onclick='eventClickFunction("+event.eventId+")'";
             }else{
                 html += "<div";
             }

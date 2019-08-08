@@ -13,7 +13,12 @@
     <asset:stylesheet src="fullcalendar.css"/>
     <asset:stylesheet src="fullcalendar.print.css"/>
 
-
+    <style>
+button:focus {
+    outline: none;
+    border: none;
+}
+</style>
 </head>
 
 <body>
@@ -33,9 +38,9 @@
     </g:if>
     <div class="col-md-12 text-center">
         <div class="btn-group btn-group-justified" data-toggle="buttons" role="group" aria-label="Basic example" >
-            <a href="#listView" id="listViewLink" class="btn btn-secondary " data-toggle="tab">Liste Görünümü</a>
+            <a href="#listView" id="listViewLink" class="btn btn-primary " data-toggle="tab">Liste Görünümü</a>
 
-            <a href="#calendarView" class="btn btn-secondary" data-toggle="tab">Takvim Görünümü</a>
+            <a href="#calendarView" id="calendarBtn" class="btn btn-outline-primary" data-toggle="tab">Takvim Görünümü</a>
         </div>
     </div>
 
@@ -161,10 +166,7 @@
                             <g:field type="text" name="description" class="form-control" />
                         </div>
 
-                        <div class="form-group">
-                            <label for="username">Username</label>
-                            <g:field type="text" name="username" class="form-control" value="${currentUser.username}" />
-                        </div>
+
                         <div class="form-group">
                             <label for="quota">Kontenjan</label>
                             <g:field type="number" name="quota" class="form-control" value="10" />
@@ -176,6 +178,10 @@
                         <div class="form-group">
                             <label for="endDate">End</label>
                             <g:field type="datetime-local" value="2011-08-06T00:00:00" name="endDate" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <g:field type="text" name="username" readonly class="form-control" value="${currentUser.username}" />
                         </div>
                     </fieldset>
                     <div class="col-md-12 text-center">
@@ -217,10 +223,6 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="username">Username</label>
-                            <input type="text" name="usernameCalendar" id="usernameCalendar" class="form-control" value="${currentUser.username}" />
-                        </div>
-                        <div class="form-group">
                             <label for="quota">Kontenjan</label>
                             <input type="number" name="quotaCalendar" id="quotaCalendar" class="form-control" value="10" />
                         </div>
@@ -233,6 +235,10 @@
                             <input type="datetime-local" name="endDateCalendar" id="endDateCalendar" class="form-control" />
                         </div>
 
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" name="usernameCalendar" id="usernameCalendar" readonly class="form-control" value="${currentUser.username}" />
+                </div>
                     <div class="col-md-12 text-center">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
@@ -248,6 +254,77 @@
 </div>
 
 <!-- calendar modal end -->
+
+
+
+
+<!-- info modal begin -->
+
+<!-- Modal -->
+<div class="modal fade" id="eventInfoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" >Event Hakkında</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+
+
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" name="titleCalendar" id="titleInfo" readonly class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="Description">Description</label>
+                    <input type="text" name="descriptionCalendar" id="descriptionInfo" readonly class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" name="usernameInfo" id="usernameInfo" readonly class="form-control" value="${currentUser.username}" />
+                </div>
+                <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="quota">Kontenjan</label>
+                    <input type="number" name="quotaInfo" readonly id="quotaInfo" class="form-control" value="10" />
+                </div>
+                    <div class="form-group col-md-6">
+                        <label for="quota">Doluluk</label>
+                        <input type="text" name="quotaInfo" readonly id="numberInfo" class="form-control" value="10" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="startDate">Start</label>
+                    <input type="datetime-local"  name="startDateInfo" readonly id="startDateInfo" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="endDate">End</label>
+                    <input type="datetime-local" name="endDateInfo" readonly id="endDateInfo" class="form-control" />
+                </div>
+
+                <div class="col-md-12 text-center">
+                    <button type="button" class="btn btn-info" readonly data-dismiss="modal">Tamam</button>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- info modal end -->
+
+
+
+
+
+
 
 
 <!-- User List Modal -->
@@ -328,16 +405,7 @@
 
                     for (var i = 0; i < postList.length; i++) {
                         //  eventList.push({title:postList[i].title,start:new Date(postList[i].startDate),end:new Date(postList[i].endDate),allDay:true,className:"important",allDay:true,url:"www.google.com",reelId:postList[i].id});
-                        var evnt =  {
-                            title: postList[i].title,
-                            start: new Date(postList[i].startDate),
-                            end: new Date(postList[i].endDate),
-                            allDay: true,
-                            className: "important",
-                            allDay: true,
-                            url: "www.google.com",
-                            reelId: postList[i].id
-                        };
+                        var evnt =  {eventId: i ,title:postList[i].title,start:new Date(postList[i].startDate),end:new Date(postList[i].endDate),allDay:true,className:"important",allDay:true,url:"www.google.com",reelId:postList[i].id,username:postList[i].username,description:postList[i].description,quota:postList[i].quota,number:postList[i].number};
                         console.log(evnt);
                         $('#calendar').fullCalendar('renderEvent', evnt);
                     }
@@ -349,11 +417,31 @@
 
 
             $("#listViewLink").click(function () {
+                $("#listViewLink").removeClass("btn-outline-primary");
+                $("#listViewLink").addClass("btn-primary");
+
+                $("#calendarBtn").removeClass("btn-primary");
+                $("#calendarBtn").addClass("btn-outline-primary");
+
                 if(durum!=1)
                     location.reload();
-            })
+            });
+            $("#calendarBtn").click(function () {
+                $(this).addClass("btn-primary");
+                $(this).removeClass("btn-outline-primary");
+                $("#listViewLink").removeClass("btn-primary");
+                $("#listViewLink").addClass("btn-outline-primary");
+                $(".fc-header-center").css("visibility","hidden");
+
+                $("span.fc-button-today").click();
+            });
         });
+
+
+
     </script>
 
 </body>
 </html>
+
+

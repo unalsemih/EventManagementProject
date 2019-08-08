@@ -4,6 +4,8 @@
 
 $(document).ready(function() {
 
+
+
     function convertMyDate(date){
         console.log(date);
         var year = date.getFullYear();
@@ -45,7 +47,7 @@ $(document).ready(function() {
 
         for (var i=0; i<postList.length; i++)
         {
-            eventList.push({title:postList[i].title,start:new Date(postList[i].startDate),end:new Date(postList[i].endDate),allDay:true,className:"important",allDay:true,url:"www.google.com",reelId:postList[i].id});
+            eventList.push({eventId: i ,title:postList[i].title,start:new Date(postList[i].startDate),end:new Date(postList[i].endDate),allDay:true,className:"important",allDay:true,url:"www.google.com",reelId:postList[i].id,username:postList[i].username,description:postList[i].description,quota:postList[i].quota,number:postList[i].number});
         }
         console.log(eventList);
 
@@ -168,7 +170,8 @@ $(document).ready(function() {
 
         },
 
-        events: eventList,
+        events: eventList
+
     });
 
         calendar.fullCalendar('updateEvent',
