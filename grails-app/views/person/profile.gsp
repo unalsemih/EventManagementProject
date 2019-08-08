@@ -14,7 +14,7 @@
     }
 </style>
 <div class="row">
-    <table class="w-100" style=" height: 300px; color:white; ">
+    <table class="w-100" style=" height: 300px; color:black; background-color: white; ">
         <tbody>
         <tr style="font-family: 'Quicksand', sans-serif;">
             <td class="align-middle text-center">

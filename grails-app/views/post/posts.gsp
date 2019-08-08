@@ -343,15 +343,14 @@ button:focus {
         </div>
     </div>
 
-
-
     <!-- User List Modal -->
+
     <asset:javascript src="fullcalendar.js"/>
 
     <asset:javascript src="calendarScript.js"/>
-
     <asset:javascript src="jquery-2.2.0.min.js"/>
     <asset:javascript src="jquery-ui.custom.min.js"/>
+
     <script>
         $(document).ready(function() {
 

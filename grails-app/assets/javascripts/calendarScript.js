@@ -1,7 +1,4 @@
 
-
-
-
 $(document).ready(function() {
 
 
@@ -128,7 +125,13 @@ $(document).ready(function() {
         selectHelper: true,
         select: function(start, end, allDay) {
             //takvimden tarihler seçildiğinde....
-            $('#eventCreateModal').modal('show');
+            $.getJSON("/person/getUserRole", function (data) {
+
+                if(data[0]==="ROLE_ADMIN"){
+                    $('#eventCreateModal').modal('show');
+                }
+
+            });
             $("#startDateCalendar").val(convertMyDate(start));
             $("#endDateCalendar").val(convertMyDate(end));
             var title = "";//prompt('Event Title:');
