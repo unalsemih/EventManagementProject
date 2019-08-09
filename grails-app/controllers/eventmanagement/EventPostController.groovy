@@ -22,23 +22,22 @@ class EventPostController {
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def newEventPost() {
-
-        def currentUser = springSecurityService.currentUser
-        def user = Person.findByUsername(post.username)//postu oluşturan user
+        def ep = new EventPost()
+        println("gelenveriler")
         if(params.comments=="on")
-            params.comments = true
+            ep.comments = true
         else
-            params.comments = false
-        params.username = user.username
-        println(params)
-        def eventPost = new EventPost(params)
-
+            ep.comments = false
+        def currentUser = springSecurityService.currentUser
+        ep.username = currentUser.username
+        ep.title = params.title
+        ep.text = params.text
+        ep.postId = params.postId
+        ep.save(flush:true)
         println("İçerik")
-        println(eventPost)
-         //  eventPost.postId = postId
-      //  eventPost.publishDate = new Date()
-        eventPost.save()
-        redirect("index")
+        println(ep)
+
+        forward action: 'index', params: [id: params.postId]
     }
 
 
