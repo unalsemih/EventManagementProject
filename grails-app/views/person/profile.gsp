@@ -10,11 +10,12 @@
 <style>
     main{
         padding-top:0px !important;
-        background-color: #1178BA;
+      /*  background-color: #1178BA;*/
+        background-color: white;
     }
 </style>
 <div class="row">
-    <table class="w-100" style=" height: 300px; color:black; background-color: white; ">
+    <table class="w-100 shadow-lg p-3 mb-5 bg-white rounded" style=" height: 350px; color:black; background-color: white; ">
         <tbody>
         <tr style="font-family: 'Quicksand', sans-serif;">
             <td class="align-middle text-center">
@@ -28,15 +29,15 @@
                          alt="User picture">
 
                 </g:if>
-                <h5 class="mt-4" style="font-weight: bold; font-size: 26pt;">Semih ÜNAL</h5>
+                <h5 class="mt-4" style="font-weight: bold; font-size: 26pt;">${currentUser.username}</h5>
             </td>
         </tr>
         </tbody>
     </table>
 </div>
-<div class="row pt-5 pb-4" >
-<div class="col-md-4">
-    <div class="card p-3" style="">
+<div class="row pt-5 pb-4 shadow-lg p-3 mb-5 bg-white rounded" >
+<div class="col-md-4 ">
+    <div class="card p-3  shadow-lg p-3 mb-5 bg-white rounded" style="">
         <ul class="list-group list-group-flush" style="border:1px solid #abc;">
             <li class="list-group-item">Profil</li>
             <li class="list-group-item">Hakkında</li>
@@ -52,7 +53,7 @@
 
     <div class="card-body">
 
-        <textarea style="width: 100%;"></textarea>
+        <textarea class="form-control" style="width: 100%;" placeholder="Birşeyler yaz"></textarea>
 
 
         <div class="col-md-12 text-right">
@@ -63,7 +64,7 @@
 
 </div>
     <div class="card mb-3 mt-4">
-        <img src="https://image.shutterstock.com/image-photo/designers-desk-responsive-web-design-600w-295217774.jpg" class="card-img-top" alt="...">
+        <img style="object-fit: cover; height: 300px;" src="https://image.shutterstock.com/image-photo/designers-desk-responsive-web-design-600w-295217774.jpg" class="card-img-top" alt="...">
         <div class="card-body">
             <h5 class="card-title">Card title</h5>
             <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>

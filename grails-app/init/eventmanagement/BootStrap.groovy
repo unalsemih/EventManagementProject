@@ -7,7 +7,7 @@ class BootStrap {
               //Person1
             def role = new Role(authority: 'ROLE_ADMIN').save()
 
-            def me = new Person(username: 'semihunal', password: '123456').save()
+            def me = new Person(username: 'semihunal', password: '123456',photo: false).save()
 
             PersonRole.create me, role
 
@@ -19,7 +19,7 @@ class BootStrap {
             //Person2
             def role2 = new Role(authority: 'ROLE_USER').save()
 
-            def me2 = new Person(username: 'ahmet', password: '123').save()
+            def me2 = new Person(username: 'ahmet', password: '123',photo: false).save()
 
             PersonRole.create me2, role2
 
@@ -27,7 +27,7 @@ class BootStrap {
                 it.flush()
                 it.clear()
             }
-        def me3 = new Person(username: 'melihnl', password: '123456').save()
+        def me3 = new Person(username: 'melihnl', password: '123456',photo: false).save()
 
         PersonRole.create me3, role2
 
@@ -35,7 +35,7 @@ class BootStrap {
             it.flush()
             it.clear()
         }
-        def me4 = new Person(username: "ismail", password: '123456').save()
+        def me4 = new Person(username: "ismail", password: '123456',photo: false).save()
 
         PersonRole.create me4, role2
 

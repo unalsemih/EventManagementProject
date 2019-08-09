@@ -53,7 +53,8 @@
                     </div>
                 <div class="user-info">
                     <span class="user-name">
-                        <strong>${currentUser.username}</strong>
+                        <strong>${currentUser.username}
+                            </strong>
                     </span>
                     <span class="user-role">Administrator</span>
                     <span class="user-status">

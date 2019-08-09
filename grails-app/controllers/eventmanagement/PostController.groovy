@@ -206,8 +206,6 @@ class PostController {
         render list as JSON
     }
 
-
-
 }
 
 class PostUserEventStatus{

@@ -81,7 +81,7 @@ button:focus {
                                     <tr>
                                         <th scope="row">${post.post.id}</th>
 
-                                        <td>${post.post.title}</td>
+                                        <td><a href="/eventPost?id=${post.post.id}">${post.post.title}</a></td>
                                         <td> ${post.post.startDate} <br> ${post.post.endDate}</td>
                                         <td>${post.post.username}</td>
                                         <td style="text-align:center">${post.post.number}/${post.post.quota}</td>

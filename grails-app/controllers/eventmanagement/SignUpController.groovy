@@ -20,6 +20,7 @@ class SignUpController {
        // CommonsMultipartFile file = params.list("photo")?.getAt(0)
        // user.avatar = file?.bytes
         user.avatar = params.photo.bytes
+        user.photo=true
         user.save(flush:true)
         def targetUri = params.targetUri ?: "/"
         redirect(uri: targetUri)
@@ -31,6 +32,7 @@ class SignUpController {
         // CommonsMultipartFile file = params.list("photo")?.getAt(0)
         // user.avatar = file?.bytes
         user.avatar = null
+        user.photo=false
         user.save(flush:true)
         def targetUri = params.targetUri ?: "/"
         redirect(uri: targetUri)

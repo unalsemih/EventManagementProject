@@ -18,7 +18,7 @@ class Person implements Serializable {
 	boolean accountLocked
 	boolean passwordExpired
 	byte[] avatar
-
+	boolean photo
 	Set<Role> getAuthorities() {
 		(PersonRole.findAllByPerson(this) as List<PersonRole>)*.role as Set<Role>
 	}
