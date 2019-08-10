@@ -5,6 +5,8 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile
 
 class SignUpController {
 
+    def springSecurityService
+
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def index() {
         render(view:'index')
@@ -16,7 +18,7 @@ class SignUpController {
     }
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def upload(){
-        def user = Person.findById(2)
+        def user = Person.findById(springSecurityService.currentUser.id)
        // CommonsMultipartFile file = params.list("photo")?.getAt(0)
        // user.avatar = file?.bytes
         user.avatar = params.photo.bytes
@@ -49,7 +51,7 @@ class SignUpController {
 */
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def displayAvatarForCurrentUser() {
-        Person person = Person.get(2)
+        Person person = Person.get(springSecurityService.currentUser.id)
        // SartUser sartUser = SartUser.findByUsername(user.username)
         response.outputStream << person.avatar // write the photo to the outputstream
         response.outputStream.flush()

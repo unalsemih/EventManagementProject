@@ -293,7 +293,7 @@
 <g:uploadForm controller="signUp" action="upload"  params="[targetUri: (request.forwardURI - request.contextPath)]" style="visibility: hidden">
 <!-- Photo ekleme için gerekli olan input...-->
     Photo: <input name="photo" type="file" id="inputPhoto"/>
-    <g:submitButton name="upload" value="Upload"/>
+    <g:submitButton name="upload" id="upload"/>
 </g:uploadForm>
 
     <div class="footer" role="contentinfo"></div>

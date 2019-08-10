@@ -4,8 +4,11 @@
 <head>
     <meta name="layout" content="main"/>
     <title></title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" rel="stylesheet">
 </head>
-
+<style>
+    button:focus {outline:0 !important;}
+</style>
 <body>
 <div class="row shadow-lg p-3 mb-5 bg-white rounded">
     <div class="col-md-6">
@@ -26,8 +29,11 @@
 
                 </td>
             </tr>
+
             </tbody>
+
         </table>
+
     </div>
 
     <div class="col-md-6">
@@ -60,6 +66,9 @@
                             <input type="text" readonly class="form-control-plaintext" value="${post.description}">
                         </div>
                     </div>
+
+                    <hr>
+                    <small>Etkinlik ${post.startDate} - ${post.endDate} tarihleri arasında gerçekleşecektir.</small>
                     <hr>
                     <h6>
                         <g:if test="${user.photo}">
@@ -89,7 +98,7 @@
         </div>
     </div>
 </div>
-
+<!--
 <div class="row">
 
     <div class="col-md-12 h-100">
@@ -124,78 +133,128 @@
     </div>
 
 </div>
-<div class="row mt-4 shadow-lg p-3 mb-2 bg-white rounded">
+-->
+<div class="row" id="posts">
+<g:each var="eventPost" in="${eventPosts}">
+<div class="col-md-12 mt-1 shadow-lg p-3 mb-2 bg-white rounded">
     <div class="col-md-12">
         <div class="card mb-3">
-            <div class="card-body">
-                <h5 class="card-title">Etkinliğe kesinlikle katılmanızı öneririz!</h5>
-                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
-                This content is a little bit longer. This content is a little bit longer. This content is a little bit longer. This content is a little bit longer.</p>
-                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-            </div>
-        </div>
-        <h4 class="" style="font-weight: bold"><span class="fa fa-plus"></span> Yorumlar</h4>
-        <div class="media">
-            <img  style="width: 80px; border-radius: 50%;" class="mr-3 img-thumbnail" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="Generic placeholder image">
-            <div class="media-body">
-                <h5 class="mt-0">Media heading</h5>
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                <div class="row mt-2 pl-4"><button class="btn btn-sm btn-primary">Cevapla</button></div>
-                <div class="media mt-3">
-                    <a class="pr-3" href="#">
-                        <img class="img-thumbnail" style="width: 80px; border-radius: 50%;" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="Generic placeholder image">
-                    </a>
-                    <div class="media-body">
-                        <h5 class="mt-0">Media heading</h5>
-                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+            <div class="card-header">
+                <div class="row">
+                <div class="col-md-6 col-sm-9 col-9">
+                    <h5>   ${eventPost.username}</h5>
+                </div>
+                <div class="col-md-6 col-sm-3 col-3 text-right">
+                    <div class="btn-group dropleft">
+                   <button class="btn btn-sm btn-success"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-v fa-x"></span></button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">Postu Sil</a>
+                            <a class="dropdown-item" href="#">Postu Düzenle</a>
+                            <a class="dropdown-item addPhoto" id="addPhoto${eventPost.id}" >Fotoğraf Ekle</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Separated link</a>
+                            <!-- Dropdown menu links -->
+                        </div>
                     </div>
                 </div>
+
+                </div>
             </div>
-        </div>
-        <div class="media mt-4">
-            <img class="mr-3 img-thumbnail" style="width: 80px; border-radius: 50%;" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="Generic placeholder image">
-            <div class="media-body">
-                <h5 class="mt-0">Media heading</h5>
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                <div class="row mt-2 pl-4"><button class="btn btn-sm btn-primary">Cevapla</button></div>
+            <div class="card-body pb-1">
+                <h5 class="card-title">${eventPost.title}</h5>
+                <p class="card-text">${eventPost.text}</p>
+                <p class="card-text mb-1"><small class="text-muted">Last updated 3 mins ago</small></p>
+                <div class="row">
+                    <g:each var="image" in="${images}">
+                        <g:if test="${image.eventPostId == eventPost.id}">
+                            <a href="data:image/png;base64,${image.image.encodeBase64()}"  data-toggle="lightbox"  data-gallery="example-gallery">
+                                <img style="width:70px; height: 70px; padding-left: 10px; object-fit: contain;" src="data:image/png;base64,${image.image.encodeBase64()}"/>
+                            </a>
 
-                <div class="media mt-3">
-                    <a class="pr-3" href="#">
-                        <img class="img-thumbnail"  style="width: 80px; border-radius: 50%;" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="Generic placeholder image">
-                    </a>
-                    <div class="media-body">
-                        <h5 class="mt-0">Media heading</h5>
-                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                        <div class="row" id="formReply">
-                        <div class="form-group mt-4  col-md-12">
+                        </g:if>
+                    </g:each>
 
-                            <textarea class="form-control"  rows="2"></textarea>
-                            <div class="col-md-12 text-right">
-                                <button type="submit" class="btn btn-success mt-1"><span class="fas fa-comments"></span>  Cevapla</button>
+                </div>
+
+                <g:uploadForm controller="eventPost" action="uploadPhoto" style="display: none;" >
+                    <g:hiddenField name="eventId" value="${post.id}" />
+                    <g:hiddenField name="postId" value="${eventPost.id}" />
+                    <!-- Photo ekleme için gerekli olan input...-->
+                        Photo: <input class="inputPhotoPost" name="photo" type="file" id="addPhoto${eventPost.id}Btn" multiple/>
+                    <g:submitButton name="uploadPhotoSubmit" value="Upload"/>
+                </g:uploadForm>
+            </div>
+            <div class="card-footer">
+              <h4 class="commentBtn" style="font-weight: bold;   cursor:pointer;" ><span class="fa fa-plus"></span> Yorumlar</h4>
+
+                <div class=" pl-2 pr-2" id="commentsMedia" style="display: none;">
+                    <div class="media" >
+                        <img  style="width: 80px; border-radius: 50%;" class="mr-3 img-thumbnail" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="Generic placeholder image">
+                        <div class="media-body">
+                            <h5 class="mt-0">Media heading</h5>
+                            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                            <div class="row mt-2 pl-4"><button class="btn btn-sm btn-primary">Cevapla</button></div>
+                            <div class="media mt-3">
+                                <a class="pr-3" href="#">
+                                    <img class="img-thumbnail" style="width: 80px; border-radius: 50%;" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="Generic placeholder image">
+                                </a>
+                                <div class="media-body">
+                                    <h5 class="mt-0">Media heading</h5>
+                                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                                </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="media mt-4">
+                        <img class="mr-3 img-thumbnail" style="width: 80px; border-radius: 50%;" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="Generic placeholder image">
+                        <div class="media-body">
+                            <h5 class="mt-0">Media heading</h5>
+                            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                            <div class="row mt-2 pl-4"><button class="btn btn-sm btn-primary">Cevapla</button></div>
+
+                            <div class="media mt-3">
+                                <a class="pr-3" href="#">
+                                    <img class="img-thumbnail"  style="width: 80px; border-radius: 50%;" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="Generic placeholder image">
+                                </a>
+                                <div class="media-body">
+                                    <h5 class="mt-0">Media heading</h5>
+                                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                                    <div class="row" id="formReply">
+                                        <div class="form-group mt-4  col-md-12">
+
+                                            <textarea class="form-control"  rows="2"></textarea>
+                                            <div class="col-md-12 text-right">
+                                                <button type="submit" class="btn btn-success mt-1"><span class="fas fa-comments"></span>  Cevapla</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
 
-                </div>
+                    <form class="col-md-12 col-sm-12" style="margin:auto;  padding:50px; padding-top:0px; padding-bottom:10px;">
+
+                        <div class="form-group mt-4">
+                            <label style="font-weight:bold">Bir fikrin mi var? Hemen Paylaş!</label>
+                            <textarea class="form-control"  rows="3"></textarea>
+                        </div>
+                        <div class="col-md-12 text-right">
+                            <button type="submit" class="btn btn-success"><span class="fas fa-comments"></span>  Yorum Yap</button>
+                        </div>
+                    </form>
             </div>
+        </div>
+
         </div>
 
     </div>
-    <form class="col-md-12 col-sm-12" style="margin:auto;  padding:50px; padding-top:0px; padding-bottom:10px;">
 
-        <div class="form-group mt-4">
-            <label style="font-weight:bold">Bir fikrin mi var? Hemen Paylaş!</label>
-            <textarea class="form-control"  rows="3"></textarea>
-        </div>
-        <div class="col-md-12 text-right">
-            <button type="submit" class="btn btn-success"><span class="fas fa-comments"></span>  Yorum Yap</button>
-        </div>
-    </form>
 
 </div>
-
-
+</g:each>
+</div>
 
 
 <!-- Modal CreatePost Begin-->
@@ -244,9 +303,37 @@
     </div>
 
 </div>
+
+
 <!-- Modal CreatePost End-->
+<asset:javascript src="jquery-2.2.0.min.js"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
 
 
+<script>
+    $(".commentBtn").click(function () {
+        $(this).next().slideToggle(400);
+    });
+
+
+    $(".addPhoto").click(function () {
+        $("#"+$(this).attr("id")+"Btn").click();
+
+    });
+    $(".inputPhotoPost").change(function(){
+        //submit the form here
+        $(this).next().click();
+
+    });
+
+
+    $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+        event.preventDefault();
+        $(this).ekkoLightbox();
+    });
+</script>
+<asset:javascript src="ekko-lightbox.js"></asset:javascript>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.js.map"></script>
 
 </body>
 </html>
