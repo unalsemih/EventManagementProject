@@ -21,9 +21,11 @@ class EventPostController {
         println(post)
 
         def photos = Images.findAllByPostId(id)
+        def comments = Comment.findAllByPostId(id)
+        def replies = Reply.findAllByPostId(id)
         println(photos)
 
-        render (view:"ePost",model: [currentUser:currentUser,post:post,user:user,eventPosts:eventPosts,images:photos]);
+        render (view:"ePost",model: [currentUser:currentUser,post:post,user:user,eventPosts:eventPosts,images:photos,comments:comments,replies:replies]);
     }
 
 
@@ -46,6 +48,35 @@ class EventPostController {
         println(ep)
 
       //  forward action: 'index', params: [id: params.postId]
+        redirect(action: 'index', params: [id: params.postId])
+    }
+
+
+    @Secured(['ROLE_ADMIN','ROLE_USER'])
+    def newComment() {
+        def comment = new Comment()
+        comment.username = springSecurityService.currentUser.username
+        comment.text = params.text
+       // int eventPostId = params.eventPostId as Integer
+       // comment.eventPostId = eventPostId
+        comment.eventPostId = params.eventPostId as Integer
+        comment.postId= params.postId as Integer
+
+        comment.save(flush:true)
+        redirect(action: 'index', params: [id: params.postId])
+    }
+
+    @Secured(['ROLE_ADMIN','ROLE_USER'])
+    def newReply() {
+        def reply = new Reply()
+        reply.username = springSecurityService.currentUser.username
+        reply.text = params.text
+        reply.commentId= params.commentId as Integer
+
+        reply.eventPostId = params.eventPostId as Integer
+        reply.postId= params.postId as Integer
+
+        reply.save(flush:true)
         redirect(action: 'index', params: [id: params.postId])
     }
 

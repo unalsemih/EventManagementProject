@@ -6,14 +6,15 @@ class Reply {
 
 
 
-    int userId
+    String username
     int commentId
     String text
+    int eventPostId
+    int postId
     @BindingFormat("yyyy-MM-dd'T'HH:mm")
     Date date
 
-
-
     static constraints = {
+        date nullable: true
     }
 }

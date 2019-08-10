@@ -134,7 +134,7 @@
 
 </div>
 -->
-<div class="row" id="posts">
+<div class="col-md-9" id="posts" style="margin-left: auto; margin-right: auto;">
 <g:each var="eventPost" in="${eventPosts}">
 <div class="col-md-12 mt-1 shadow-lg p-3 mb-2 bg-white rounded">
     <div class="col-md-12">
@@ -185,66 +185,58 @@
                 </g:uploadForm>
             </div>
             <div class="card-footer">
-              <h4 class="commentBtn" style="font-weight: bold;   cursor:pointer;" ><span class="fa fa-plus"></span> Yorumlar</h4>
-
-                <div class=" pl-2 pr-2" id="commentsMedia" style="display: none;">
+              <h5 class="commentBtn" style="font-weight: bold;   cursor:pointer;" ><span class="fa fa-plus"></span> Yorumlar</h5>
+                <g:each var="comment" in="${comments}">
                     <div class="media" >
-                        <img  style="width: 80px; border-radius: 50%;" class="mr-3 img-thumbnail" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="Generic placeholder image">
+                        <img  style="width: 70px; border-radius: 50%;" class="mr-3 img-thumbnail" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="Generic placeholder image">
                         <div class="media-body">
                             <h5 class="mt-0">Media heading</h5>
-                            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                            <div class="row mt-2 pl-4"><button class="btn btn-sm btn-primary">Cevapla</button></div>
-                            <div class="media mt-3">
+                            ${comment.text}
+                            <div class="row mt-2 pl-4"><button class="btn btn-sm btn-primary replyBtn">Cevapla</button></div>
+                            <g:each var="reply" in="${replies}">
+                            <div class="media mt-1">
                                 <a class="pr-3" href="#">
-                                    <img class="img-thumbnail" style="width: 80px; border-radius: 50%;" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="Generic placeholder image">
+                                    <img class="img-thumbnail" style="width: 70px; border-radius: 50%;" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="Generic placeholder image">
                                 </a>
                                 <div class="media-body">
                                     <h5 class="mt-0">Media heading</h5>
-                                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                                    ${reply.text}
                                 </div>
+
                             </div>
-                        </div>
-                    </div>
-                    <div class="media mt-4">
-                        <img class="mr-3 img-thumbnail" style="width: 80px; border-radius: 50%;" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="Generic placeholder image">
-                        <div class="media-body">
-                            <h5 class="mt-0">Media heading</h5>
-                            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                            <div class="row mt-2 pl-4"><button class="btn btn-sm btn-primary">Cevapla</button></div>
-
-                            <div class="media mt-3">
-                                <a class="pr-3" href="#">
-                                    <img class="img-thumbnail"  style="width: 80px; border-radius: 50%;" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="Generic placeholder image">
-                                </a>
-                                <div class="media-body">
-                                    <h5 class="mt-0">Media heading</h5>
-                                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                                    <div class="row" id="formReply">
-                                        <div class="form-group mt-4  col-md-12">
-
-                                            <textarea class="form-control"  rows="2"></textarea>
-                                            <div class="col-md-12 text-right">
-                                                <button type="submit" class="btn btn-success mt-1"><span class="fas fa-comments"></span>  Cevapla</button>
-                                            </div>
+                            </g:each>
+                            <div class="row">
+                                <div class="form-group mt-1  col-md-12 replyForm" style="display:none">
+                                    <g:form action="newReply" controller="eventPost" >
+                                        <g:hiddenField name="postId" value="${post.id}" />
+                                        <g:hiddenField name="eventPostId" value="${eventPost.id}" />
+                                        <g:hiddenField name="commentId" value="${comment.id}" />
+                                        <textarea name="text" class="form-control"  rows="1"></textarea>
+                                        <div class="col-md-12 text-right">
+                                            <button type="submit" class="btn btn-success mt-1"><span class="fas fa-comments"></span>  Cevapla</button>
                                         </div>
-                                    </div>
+                                    </g:form>
                                 </div>
-
                             </div>
                         </div>
                     </div>
+                </g:each>
+                <g:form class="col-md-12 col-sm-12" style="margin:auto;  padding:50px; padding-top:0px; padding-bottom:10px;" action="newComment" controller="eventPost" >
+                    <g:hiddenField name="postId" value="${post.id}" />
+                    <g:hiddenField name="eventPostId" value="${eventPost.id}" />
+                    <div class="form-group mt-1">
+                        <label style="font-weight:bold">Bir fikrin mi var? Hemen Paylaş!</label>
+                        <textarea class="form-control" name="text"  rows="3"></textarea>
+                    </div>
+                    <div class="col-md-12 text-right">
+                        <button type="submit" class="btn btn-success"><span class="fas fa-comments"></span>  Yorum Yap</button>
+                    </div>
+                </g:form>
 
-                    <form class="col-md-12 col-sm-12" style="margin:auto;  padding:50px; padding-top:0px; padding-bottom:10px;">
 
-                        <div class="form-group mt-4">
-                            <label style="font-weight:bold">Bir fikrin mi var? Hemen Paylaş!</label>
-                            <textarea class="form-control"  rows="3"></textarea>
-                        </div>
-                        <div class="col-md-12 text-right">
-                            <button type="submit" class="btn btn-success"><span class="fas fa-comments"></span>  Yorum Yap</button>
-                        </div>
-                    </form>
-            </div>
+
+
+           <!-- </div> -->
         </div>
 
         </div>
@@ -312,7 +304,7 @@
 
 <script>
     $(".commentBtn").click(function () {
-        $(this).next().slideToggle(400);
+        $(this).nextAll().slideToggle(400);
     });
 
 
@@ -326,6 +318,10 @@
 
     });
 
+    $(".replyBtn").click(function () {
+        $(".replyForm").css("display","none");
+        $(this).parent().next().next().next().children(".replyForm").css("display","block");
+    });
 
     $(document).on('click', '[data-toggle="lightbox"]', function(event) {
         event.preventDefault();
