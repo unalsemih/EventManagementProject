@@ -5,12 +5,13 @@
     <meta name="layout" content="main"/>
     <title></title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Blinker|Libre+Caslon+Text&display=swap" rel="stylesheet">
 </head>
 <style>
     button:focus {outline:0 !important;}
 </style>
-<body>
-<div class="row shadow-lg p-3 mb-5 bg-white rounded">
+<body style="font-family: 'Blinker', sans-serif;">
+<div class="row shadow-lg p-3 mb-5 bg-white rounded" style="">
     <div class="col-md-6">
         <table class="w-100 " style=" height: 350px; color:black; background-color: white; ">
             <tbody>
@@ -98,57 +99,33 @@
         </div>
     </div>
 </div>
-<!--
-<div class="row">
 
-    <div class="col-md-12 h-100">
-        <div class="card">
-        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-            <ol class="carousel-indicators">
-                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-            </ol>
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img class="d-block w-100" style="height:350px;  object-fit: cover;" src="https://cdn.pixabay.com/photo/2019/08/06/12/15/panama-4388225_960_720.jpg" alt="First slide">
-                </div>
-                <div class="carousel-item">
-                    <img class="d-block w-100 " style="height:350px;  object-fit: cover;" src="https://cdn.pixabay.com/photo/2019/08/07/06/31/lake-4389964_960_720.jpg" alt="Second slide">
-                </div>
-                <div class="carousel-item">
-                    <img class="d-block w-100" style="height:350px;  object-fit: cover;" src="https://cdn.pixabay.com/photo/2018/01/21/17/43/lisbon-3097112_960_720.jpg" alt="Third slide">
-                </div>
-            </div>
-            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
-        </div>
-    </div>
-    </div>
 
-</div>
--->
-<div class="col-md-9" id="posts" style="margin-left: auto; margin-right: auto;">
+<div class="row shadow-lg p-3 mb-2 bg-white rounded" style="font-family: 'Blinker', sans-serif; font-weight: bold">
+<div class="col-md-8" id="posts" style="margin-left: auto; margin-right: auto;">
 <g:each var="eventPost" in="${eventPosts}">
-<div class="col-md-12 mt-1 shadow-lg p-3 mb-2 bg-white rounded">
+<div class="col-md-12 mt-1">
     <div class="col-md-12">
         <div class="card mb-3">
-            <div class="card-header">
+            <div class="card-header" style="background-color: #fff">
                 <div class="row">
                 <div class="col-md-6 col-sm-9 col-9">
-                    <h5>   ${eventPost.username}</h5>
+                    <h6>   ${eventPost.username}</h6>
                 </div>
+                    <g:if test="${eventPost.username==currentUser.username}">
+
                 <div class="col-md-6 col-sm-3 col-3 text-right">
                     <div class="btn-group dropleft">
                    <button class="btn btn-sm btn-success"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-v fa-x"></span></button>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">Postu Sil</a>
+                            <a class="dropdown-item deleteEventPost" href="#">Postu Sil</a>
+
+                                <g:form action="deleteEventPost" controller="eventPost" style="display:none">
+                                    <g:hiddenField name="eventPostId" value="${eventPost.id}" />
+                                    <g:hiddenField name="postId" value="${post.id}" />
+                                    <button type="submit" class="btn btn-success mt-1"></button>
+                                </g:form>
+
                             <a class="dropdown-item" href="#">Postu Düzenle</a>
                             <a class="dropdown-item addPhoto" id="addPhoto${eventPost.id}" >Fotoğraf Ekle</a>
                             <div class="dropdown-divider"></div>
@@ -157,17 +134,19 @@
                         </div>
                     </div>
                 </div>
+                    </g:if>
 
                 </div>
             </div>
             <div class="card-body pb-1">
-                <h5 class="card-title">${eventPost.title}</h5>
-                <p class="card-text">${eventPost.text}</p>
+             <!--   <h5 class="card-title">${eventPost.title}</h5>
+                -->
+                <p class="card-text" style="padding:0px 20px;">${eventPost.text}</p>
                 <p class="card-text mb-1"><small class="text-muted">Last updated 3 mins ago</small></p>
                 <div class="row">
                     <g:each var="image" in="${images}">
                         <g:if test="${image.eventPostId == eventPost.id}">
-                            <a href="data:image/png;base64,${image.image.encodeBase64()}"  data-toggle="lightbox"  data-gallery="example-gallery">
+                            <a href="data:image/png;base64,${image.image.encodeBase64()}"  data-toggle="lightbox"  data-gallery="${eventPost.username}photos">
                                 <img style="width:70px; height: 70px; padding-left: 10px; object-fit: contain;" src="data:image/png;base64,${image.image.encodeBase64()}"/>
                             </a>
 
@@ -184,9 +163,13 @@
                     <g:submitButton name="uploadPhotoSubmit" value="Upload"/>
                 </g:uploadForm>
             </div>
-            <div class="card-footer">
-              <h5 class="commentBtn" style="font-weight: bold;   cursor:pointer;" ><span class="fa fa-plus"></span> Yorumlar</h5>
+            <div class="card-footer"  style="background: #fff;">
+                <g:if test="${eventPost.comments==true}">
+
+
+              <h5 class="commentBtn" style="   cursor:pointer;" > Yorumları Göster <span class="fa fa-comment"></span></h5>
                 <g:each var="comment" in="${comments}">
+                    <g:if test="${comment.eventPostId == eventPost.id}">
                     <div class="media" >
                         <img  style="width: 70px; border-radius: 50%;" class="mr-3 img-thumbnail" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="Generic placeholder image">
                         <div class="media-body">
@@ -194,6 +177,7 @@
                             ${comment.text}
                             <div class="row mt-2 pl-4"><button class="btn btn-sm btn-primary replyBtn">Cevapla</button></div>
                             <g:each var="reply" in="${replies}">
+                                <g:if test="${reply.commentId== comment.id}">
                             <div class="media mt-1">
                                 <a class="pr-3" href="#">
                                     <img class="img-thumbnail" style="width: 70px; border-radius: 50%;" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="Generic placeholder image">
@@ -204,6 +188,7 @@
                                 </div>
 
                             </div>
+                                </g:if>
                             </g:each>
                             <div class="row">
                                 <div class="form-group mt-1  col-md-12 replyForm" style="display:none">
@@ -220,8 +205,11 @@
                             </div>
                         </div>
                     </div>
+                    </g:if>
+
                 </g:each>
-                <g:form class="col-md-12 col-sm-12" style="margin:auto;  padding:50px; padding-top:0px; padding-bottom:10px;" action="newComment" controller="eventPost" >
+
+                    <g:form class="col-md-12 col-sm-12" style="margin:auto;  padding:50px; padding-top:0px; padding-bottom:10px;" action="newComment" controller="eventPost" >
                     <g:hiddenField name="postId" value="${post.id}" />
                     <g:hiddenField name="eventPostId" value="${eventPost.id}" />
                     <div class="form-group mt-1">
@@ -232,8 +220,10 @@
                         <button type="submit" class="btn btn-success"><span class="fas fa-comments"></span>  Yorum Yap</button>
                     </div>
                 </g:form>
-
-
+                </g:if>
+                <g:if test="${eventPost.comments == false}">
+                    <small class="text-danger" style="font-weight: bold">Yorumlar post oluşturan kişi tarafından kapatıldı.</small>
+                </g:if>
 
 
            <!-- </div> -->
@@ -247,7 +237,7 @@
 </div>
 </g:each>
 </div>
-
+</div>
 
 <!-- Modal CreatePost Begin-->
 
@@ -297,16 +287,52 @@
 </div>
 
 
+<!--message modal begin-->
+<div class="modal fade bd-example-modal-lg" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title text-danger">Bilgilendirme</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+            <h6 style=""> ${messageText} </h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">Tamam</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<!--message modal end-->
+
 <!-- Modal CreatePost End-->
 <asset:javascript src="jquery-2.2.0.min.js"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
 
+<script>
+    $( document ).ready(function() {
 
+        <g:if test="${messageText}" >
+        $("#messageModal").modal("show");
+        </g:if>
+
+
+
+    });
+</script>
 <script>
     $(".commentBtn").click(function () {
         $(this).nextAll().slideToggle(400);
     });
 
+    $(".deleteEventPost").click(function () {
+       $(this).next().children("button").click();
+    });
 
     $(".addPhoto").click(function () {
         $("#"+$(this).attr("id")+"Btn").click();
@@ -320,7 +346,7 @@
 
     $(".replyBtn").click(function () {
         $(".replyForm").css("display","none");
-        $(this).parent().next().next().next().children(".replyForm").css("display","block");
+        $(this).parent().parent().children(".row").children(".replyForm").css("display","block");
     });
 
     $(document).on('click', '[data-toggle="lightbox"]', function(event) {

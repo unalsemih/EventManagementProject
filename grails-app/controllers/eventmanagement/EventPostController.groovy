@@ -6,10 +6,12 @@ import java.awt.Image
 
 class EventPostController {
     def springSecurityService
-
+    def messageText=""
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def index(int id) {
+        def message = messageText;
+        messageText = ""
         def currentUser = springSecurityService.currentUser
         println("id: "+id)
         println(id)
@@ -25,7 +27,7 @@ class EventPostController {
         def replies = Reply.findAllByPostId(id)
         println(photos)
 
-        render (view:"ePost",model: [currentUser:currentUser,post:post,user:user,eventPosts:eventPosts,images:photos,comments:comments,replies:replies]);
+        render (view:"ePost",model: [currentUser:currentUser,post:post,user:user,eventPosts:eventPosts,images:photos,comments:comments,replies:replies,messageText:message]);
     }
 
 
@@ -46,7 +48,7 @@ class EventPostController {
         ep.save(flush:true)
         println("İçerik")
         println(ep)
-
+        messageText = "Postunuz Oluşturuldu!"
       //  forward action: 'index', params: [id: params.postId]
         redirect(action: 'index', params: [id: params.postId])
     }
@@ -63,6 +65,7 @@ class EventPostController {
         comment.postId= params.postId as Integer
 
         comment.save(flush:true)
+        messageText = "Yorumunuz eklendi!"
         redirect(action: 'index', params: [id: params.postId])
     }
 
@@ -77,8 +80,18 @@ class EventPostController {
         reply.postId= params.postId as Integer
 
         reply.save(flush:true)
+        messageText = "Yorumunuz eklendi!"
         redirect(action: 'index', params: [id: params.postId])
     }
+
+    @Secured(['ROLE_ADMIN','ROLE_USER'])
+    def deleteEventPost() {
+        def eventPost = EventPost.get(params.eventPostId).delete(flush:true)
+        messageText = "Postunuz başarılı bir şekilde silindi!"
+        redirect(action: 'index', params: [id: params.postId])
+    }
+
+
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def uploadPhoto(){
@@ -91,6 +104,7 @@ class EventPostController {
         def photo = new Images(username: user.username ,image: params.list("photo")?.getAt(i).bytes ,postId: params.eventId,eventPostId: params.postId).save(flush:true)
   //      def targetUri = params.targetUri ?: "/"
   //      redirect(uri: targetUri)
+        messageText = "Resimleriniz postunuza eklendi!"
         redirect(action: 'index', params: [id: params.eventId])
     }
 
