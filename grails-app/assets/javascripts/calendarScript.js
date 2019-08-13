@@ -125,6 +125,7 @@ $(document).ready(function() {
         selectHelper: true,
         select: function(start, end, allDay) {
             //takvimden tarihler seçildiğinde....
+            if(start>new Date())
             $.getJSON("/person/getUserRole", function (data) {
 
                 if(data[0]==="ROLE_ADMIN"){
@@ -132,6 +133,8 @@ $(document).ready(function() {
                 }
 
             });
+            else
+                alert("Önceki tarihe etkinlik oluşturulamaz!")
             $("#startDateCalendar").val(convertMyDate(start));
             $("#endDateCalendar").val(convertMyDate(end));
             var title = "";//prompt('Event Title:');

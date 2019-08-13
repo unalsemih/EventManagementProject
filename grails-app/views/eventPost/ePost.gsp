@@ -107,10 +107,11 @@
 <div class="col-md-12 mt-1">
     <div class="col-md-12">
         <div class="card mb-3">
-            <div class="card-header" style="background-color: #fff">
+            <div class="card-header p-2" style="background-color: #fff">
                 <div class="row">
                 <div class="col-md-6 col-sm-9 col-9">
-                    <h6>   ${eventPost.username}</h6>
+                    <h6 style="margin: 0;">  <img  style="width: 40px; border-radius: 50%;" class="mr-3 " src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="Generic placeholder image">
+                        ${eventPost.username}</h6>
                 </div>
                     <g:if test="${eventPost.username==currentUser.username}">
 
@@ -147,7 +148,7 @@
                     <g:each var="image" in="${images}">
                         <g:if test="${image.eventPostId == eventPost.id}">
                             <a href="data:image/png;base64,${image.image.encodeBase64()}"  data-toggle="lightbox"  data-gallery="${eventPost.username}photos">
-                                <img style="width:70px; height: 70px; padding-left: 10px; object-fit: contain;" src="data:image/png;base64,${image.image.encodeBase64()}"/>
+                                <img style="width:40px; height: 40px; padding-left: 10px; object-fit: contain;" src="data:image/png;base64,${image.image.encodeBase64()}"/>
                             </a>
 
                         </g:if>
@@ -171,19 +172,19 @@
                 <g:each var="comment" in="${comments}">
                     <g:if test="${comment.eventPostId == eventPost.id}">
                     <div class="media" >
-                        <img  style="width: 70px; border-radius: 50%;" class="mr-3 img-thumbnail" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="Generic placeholder image">
+                        <img  style="width: 40px; border-radius: 10%;" class="mr-3" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="Generic placeholder image">
                         <div class="media-body">
-                            <h5 class="mt-0">Media heading</h5>
+                            <h5 class="mt-0">${comment.username}</h5>
                             ${comment.text}
                             <div class="row mt-2 pl-4"><button class="btn btn-sm btn-primary replyBtn">Cevapla</button></div>
                             <g:each var="reply" in="${replies}">
                                 <g:if test="${reply.commentId== comment.id}">
                             <div class="media mt-1">
                                 <a class="pr-3" href="#">
-                                    <img class="img-thumbnail" style="width: 70px; border-radius: 50%;" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="Generic placeholder image">
+                                    <img class="" style="width: 40px; border-radius: 10%;" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="Generic placeholder image">
                                 </a>
                                 <div class="media-body">
-                                    <h5 class="mt-0">Media heading</h5>
+                                    <h5 class="mt-0">${reply.username}</h5>
                                     ${reply.text}
                                 </div>
 
@@ -214,10 +215,10 @@
                     <g:hiddenField name="eventPostId" value="${eventPost.id}" />
                     <div class="form-group mt-1">
                         <label style="font-weight:bold">Bir fikrin mi var? Hemen Paylaş!</label>
-                        <textarea class="form-control" name="text"  rows="3"></textarea>
+                        <textarea class="form-control" name="text"  rows="1"></textarea>
                     </div>
                     <div class="col-md-12 text-right">
-                        <button type="submit" class="btn btn-success"><span class="fas fa-comments"></span>  Yorum Yap</button>
+                        <button type="submit" class="btn btn-sm btn-success"><span class="fas fa-comments"></span>  Yorum Yap</button>
                     </div>
                 </g:form>
                 </g:if>
@@ -254,7 +255,7 @@
             </div>
             <div class="modal-body">
 
-                <g:form action="newEventPost" controller="eventPost" >
+                <g:form action="newEventPost" controller="eventPost" enctype="multipart/form-data">
                     <fieldset class="form">
                         <div class="form-group">
                             <label for="title">Post Başlığı</label>
@@ -270,6 +271,10 @@
                             <input type="checkbox" name="comments" class="custom-control-input custom-switch-lg" id="customSwitch1">
                             <label class="custom-control-label" for="customSwitch1">Post yorumları</label>
                         </div>
+                        <div class="custom-control custom-switch">
+                            <input type="file" name="photo" type="file" multiple >
+                        </div>
+
                         <g:hiddenField name="postId" value="${post.id}" />
                     </fieldset>
                     <div class="col-md-12 text-center">
@@ -301,7 +306,7 @@
             <h6 style=""> ${messageText} </h6>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-dismiss="modal">Tamam</button>
+                <button type="button" class="btn btn-success btn-sm" data-dismiss="modal">Tamam</button>
             </div>
 
         </div>

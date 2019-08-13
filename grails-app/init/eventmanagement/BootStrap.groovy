@@ -46,8 +46,12 @@ class BootStrap {
         def a= new Post(title: 'Kartopu Etkinliğii',description: 'Description1',number: '0',username: 'semihunal',quota: '15',startDate: "2019-08-10T13:25",endDate: "2019-08-10T15:25").save(flush: true)
         def b= new Post(title: 'Doğa Yürüyüşü',description: 'Description2',number: '0',username: 'semihunal',quota: '30',startDate: "2019-08-16T13:25",endDate: "2019-08-17T13:25").save(flush: true)
         def c= new Post(title: 'Yaza Merhaba Etkinliği',description: 'Description1',number: '0',username: 'semihunal',quota: '20',startDate: "2019-08-12T13:25",endDate: "2019-08-13T13:25").save(flush: true)
+        def d= new Post(title: 'Görüntü İşleme Temelleri',description: 'Description1',number: '0',username: 'semihunal',quota: '20',startDate: "2019-08-12T13:25",type: "Eğitim",endDate: "2019-08-13T13:25").save(flush: true)
 
-
+        def course  = new Category(type: "Eğitim",name: "Kurs").save()
+        def oyun = new Category(type: "Eğlence", name:"Oyun Turnuvaları").save()
+        def oyun2 = new Category(type: "Eğlence", name:"Yemek").save()
+        def motivasyon = new Category(type: "Eğlence", name:"Motivasyon Etkinlikleri").save()
 
         ////
 

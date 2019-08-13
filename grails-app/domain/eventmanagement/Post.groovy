@@ -9,6 +9,7 @@ class Post {
     String username
     int number
     int quota
+    String type="Eğlence"
     @BindingFormat("yyyy-MM-dd'T'HH:mm")
     Date startDate
     @BindingFormat("yyyy-MM-dd'T'HH:mm")

@@ -25,17 +25,7 @@ button:focus {
 <div class="container">
 
 
-    <g:if test="${messageText}">
 
-        <div class="alert alert-danger mt-4 mb-0 alert-dismissible fade show" role="alert">
-            <strong>${messageText}</strong>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-
-
-    </g:if>
     <div class="col-md-12 text-center">
         <div class="btn-group btn-group-justified" data-toggle="buttons" role="group" aria-label="Basic example" >
             <a href="#listView" id="listViewLink" class="btn btn-primary " data-toggle="tab">Liste Görünümü</a>
@@ -47,7 +37,17 @@ button:focus {
     <div class="row mt-5">
         <div class="card shadow-lg p-3 mb-5 bg-white rounded" style="width: 75rem; margin:0px auto;">
             <div class="card-body">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Event Type</label>
+                        <select class="form-control" id="exampleFormControlSelect1">
+                            <option>Eğlence</option>
+                            <option>Eğitim</option>
+                        </select>
+                    </div>
+                </div>
                 <h3 style="text-align:center">Etkinlikler</h3>
+
                 <div class="col-md-12" >
                     <div class="tab-content">
 
@@ -159,25 +159,25 @@ button:focus {
                     <fieldset class="form">
                         <div class="form-group">
                             <label for="title">Title</label>
-                            <g:field type="text" name="title" class="form-control" />
+                            <g:field required type="text" name="title" class="form-control" />
                         </div>
                         <div class="form-group">
                             <label for="Description">Description</label>
-                            <g:field type="text" name="description" class="form-control" />
+                            <g:field required type="text" name="description" class="form-control" />
                         </div>
 
 
                         <div class="form-group">
                             <label for="quota">Kontenjan</label>
-                            <g:field type="number" name="quota" class="form-control" value="10" />
+                            <g:field required type="number" name="quota" class="form-control" value="10" />
                         </div>
                         <div class="form-group">
                             <label for="startDate">Start</label>
-                            <g:field type="datetime-local" value="2019-08-06T00:00:00" name="startDate" class="form-control" />
+                            <g:field type="datetime-local" value="2019-08-06T00:00:00" name="startDate" id="modalStartDate" class="form-control" />
                         </div>
                         <div class="form-group">
                             <label for="endDate">End</label>
-                            <g:field type="datetime-local" value="2011-08-06T00:00:00" name="endDate" class="form-control" />
+                            <g:field type="datetime-local" value="2011-08-06T00:00:00"  id="modalEndDate" name="endDate" class="form-control" />
                         </div>
                         <div class="form-group">
                             <label for="username">Username</label>
@@ -434,6 +434,15 @@ button:focus {
 
                 $("span.fc-button-today").click();
             });
+
+
+            var today = new Date();
+
+            document.getElementById("modalStartDate").setAttribute("value",""+convertMyDate(today));
+            document.getElementById("modalEndDate").setAttribute("value",""+convertMyDate(today));
+            document.getElementById("modalStartDate").setAttribute("min",""+convertMyDate(today));
+            document.getElementById("modalEndDate").setAttribute("min",""+convertMyDate(today));
+
         });
 
 
