@@ -37,15 +37,7 @@ button:focus {
     <div class="row mt-5">
         <div class="card shadow-lg p-3 mb-5 bg-white rounded" style="width: 75rem; margin:0px auto;">
             <div class="card-body">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="exampleFormControlSelect1">Event Type</label>
-                        <select class="form-control" id="exampleFormControlSelect1">
-                            <option>Eğlence</option>
-                            <option>Eğitim</option>
-                        </select>
-                    </div>
-                </div>
+
                 <h3 style="text-align:center">Etkinlikler</h3>
 
                 <div class="col-md-12" >
@@ -53,7 +45,32 @@ button:focus {
 
 
                         <div class="tab-pane active" id="listView">
+                            <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label style="font-weight: bold;">Event Type</label>
+                                    <select class="form-control" id="comboboxType" onchange="changeEventType()">
 
+                                        <option  value="all">Tümünü Listele</option>
+                                        <option value="fun">Eğlence</option>
+                                        <option value="education">Eğitim</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <g:if test="${categoryList}">
+                                    <label style="font-weight: bold;">Category</label>
+                                    <select class="form-control" id="comboboxCategory" onchange="changeCategory()">
+                                        <option>Tümü</option>
+                                        <g:each var="category" in="${categoryList}">
+                                            <option value="${category.id}">${category.name}</option>
+                                        </g:each>
+                                    </select>
+                                    </g:if>
+                                </div>
+                            </div>
+                            </div>
                             <table class="table table-dark">
                                 <thead>
                                 <tr>
@@ -81,7 +98,7 @@ button:focus {
                                     <tr>
                                         <th scope="row">${post.post.id}</th>
 
-                                        <td><a href="/eventPost?id=${post.post.id}">${post.post.title}</a></td>
+                                        <td><a href="/eventPost?id=${post.post.id}"  style="color:#d1ecf1;">${post.post.title}</a></td>
                                         <td> ${post.post.startDate} <br> ${post.post.endDate}</td>
                                         <td>${post.post.username}</td>
                                         <td style="text-align:center">${post.post.number}/${post.post.quota}</td>
@@ -155,8 +172,22 @@ button:focus {
             </div>
             <div class="modal-body">
 
-                <g:form action="createPost" controller="post" name="recipeForm">
+                <g:form action="createPost" controller="post">
                     <fieldset class="form">
+                        <div class="form-group">
+                            <label >Event Type</label>
+                            <select class="form-control" name="type" id="comboboxTypeModal">
+
+
+                                <option value="fun">Eğlence</option>
+                                <option value="education">Eğitim</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label >Category</label>
+                            <select class="form-control" name="categoryId" id="categoryModal">
+                            </select>
+                        </div>
                         <div class="form-group">
                             <label for="title">Title</label>
                             <g:field required type="text" name="title" class="form-control" />
@@ -212,7 +243,20 @@ button:focus {
             <div class="modal-body">
 
 
+                    <div class="form-group">
+                        <label >Event Type</label>
+                        <select class="form-control" name="type" id="comboboxTypeModalCalendar" onchange="changeEventTypeCalendar()">
 
+
+                            <option value="fun">Eğlence</option>
+                            <option value="education">Eğitim</option>
+                        </select>
+                    </div>
+                <div class="form-group">
+                    <label >Category</label>
+                    <select class="form-control" name="categoryId" id="comboboxCategoryModalCalendar">
+                    </select>
+                </div>
                         <div class="form-group">
                             <label for="title">Title</label>
                             <input type="text" name="titleCalendar" id="titleCalendar" class="form-control" />
@@ -354,6 +398,28 @@ button:focus {
     <script>
         $(document).ready(function() {
 
+            $("#comboboxTypeModal").change(function () {
+
+
+                var selectedValue = document.getElementById("comboboxTypeModal").options[document.getElementById("comboboxTypeModal").selectedIndex].value;
+
+                $.ajax({
+                    url: "/category/getCategory?type="+selectedValue,
+                    type: 'GET',
+                    dataType: 'json', // added data type
+                    success: function(res) {
+                        console.log(res);
+                        $("#categoryModal option").remove();
+
+                        $.each(res, function (item, val) {
+                            $("#categoryModal").append("<option value='"+val.id+"'>" + val.name + "</option>");
+                        });
+
+                    }
+                });
+            });
+            
+            
             /*Full Calendar Begin*/
             $("#createEventBtn").click(function () {
 
@@ -443,10 +509,89 @@ button:focus {
             document.getElementById("modalStartDate").setAttribute("min",""+convertMyDate(today));
             document.getElementById("modalEndDate").setAttribute("min",""+convertMyDate(today));
 
+
+
+
+
         });
+        function changeEventTypeCalendar(){
+            var selectedValue = document.getElementById("comboboxTypeModalCalendar").options[document.getElementById("comboboxTypeModalCalendar").selectedIndex].value;
+
+            $.ajax({
+                url: "/category/getCategory?type="+selectedValue,
+                type: 'GET',
+                dataType: 'json', // added data type
+                success: function(res) {
+                    console.log(res);
+                    $("#comboboxCategoryModalCalendar option").remove();
+
+                    $.each(res, function (item, val) {
+                        $("#comboboxCategoryModalCalendar").append("<option value='"+val.id+"'>" + val.name + "</option>");
+                    });
+
+                }
+            });
+        }
 
 
+        function changeEventType() {
+            var base = document.getElementsByTagName('base')[0];
+            if (base && base.href && (base.href.length > 0)) {
+                base = base.href;
+            } else {
+                base = document.URL;
+            }
+            var url =  base.substr(0,
+                base.indexOf("/", base.indexOf("/", base.indexOf("//") + 2) + 1));
+             url += "?eventType="+document.getElementById("comboboxType").options[document.getElementById("comboboxType").selectedIndex].value;
+            document.location = url;
+        }
 
+        function changeCategory() {
+            var base = document.getElementsByTagName('base')[0];
+            if (base && base.href && (base.href.length > 0)) {
+                base = base.href;
+            } else {
+                base = document.URL;
+            }
+            var url =  base.substr(0,
+                base.indexOf("/", base.indexOf("/", base.indexOf("//") + 2) + 1));
+            url += "?categoryId="+document.getElementById("comboboxCategory").options[document.getElementById("comboboxCategory").selectedIndex].value;
+            url += "&eventType="+document.getElementById("comboboxType").options[document.getElementById("comboboxType").selectedIndex].value;
+            document.location = url;
+        }
+
+        var getUrlParameter = function getUrlParameter(sParam) {
+            var sPageURL = window.location.search.substring(1),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+                }
+            }
+        };
+
+        var selectedType = getUrlParameter("eventType");
+        console.log(selectedType);
+        function getInputsByValue(value)
+        {
+            var allInputs = document.getElementsByTagName("option");
+            var results = [];
+            for(var x=0;x<allInputs.length;x++)
+                if(allInputs[x].value == value)
+                    results.push(allInputs[x]);
+            return results;
+        }
+        var selectedOption = getInputsByValue(selectedType)[0].setAttribute("selected","selected");
+
+
+        var selectedCategory = getUrlParameter("categoryId");
+        getInputsByValue(selectedCategory)[0].setAttribute("selected","selected");
     </script>
 
 </body>

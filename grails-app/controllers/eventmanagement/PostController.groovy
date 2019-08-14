@@ -3,6 +3,7 @@ package eventmanagement
 import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
 import javafx.geometry.Pos
+import org.hibernate.Query
 
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -23,16 +24,38 @@ class PostController {
 
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
-    def posts() {
+    def posts(String eventType,int categoryId) {
+
         println("durum1")
         if(currentUserAvatar())
             println("true döndü yani var...")
         else
             println("false döndü yani yok")
         //Post.getAll()
-        int size = Post.getAll().size()
 
-        def Allposts = (Post.getAll()).sort{it.id}
+        //int size = Post.getAll().size()
+        def Allposts
+        int size
+        println("category durumu : ")
+        println(categoryId)
+        println("eventtype durumu : ")
+        println(eventType)
+        if(categoryId!=null && categoryId!=0) {
+            Allposts = Post.where {
+                categoryId == categoryId
+            }.list()
+
+        }
+        else if(eventType=="fun")
+             Allposts = (Post.findAllByType("fun")).sort{it.id}
+
+        else if(eventType == "education")
+             Allposts = (Post.findAllByType("education")).sort { it.id }
+        else
+            Allposts = (Post.getAll()).sort { it.id }
+        println("aaa3")
+        size = Allposts.size()
+        println("aaa4")
         PostUserEventStatus[] listPost = new PostUserEventStatus[size];
 
 
@@ -52,11 +75,23 @@ class PostController {
 
         }
 
-
+        def categoryList = Category.findAllByType(eventType)
 
         def currentUser = springSecurityService.getCurrentUser()
-
-        render(view:'posts',model:[allposts:Allposts,currentUser:currentUser,messageText:messageText,listPost:listPost])
+        println("BİTİŞŞŞŞŞŞŞ")
+        println("Allposts")
+        println(Allposts)
+        println("currentUser")
+        println(currentUser)
+        println("messageText")
+        println(messageText)
+        println("listPost")
+        println(listPost)
+        println("eventType")
+        println(eventType)
+        println("categoryList")
+        println(categoryList)
+        render(view:'posts',model:[allposts:Allposts,currentUser:currentUser,messageText:messageText,listPost:listPost,eventType:eventType,categoryList:categoryList])
 
     }
 

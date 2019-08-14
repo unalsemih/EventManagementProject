@@ -92,9 +92,9 @@
     <div class="col-md-12">
         <div class="row ">
             <div style="margin-left:auto; margin-right: auto;">
-                <button class="btn btn-primary">Fotoğraf Ekle</button>
-                <button class="btn btn-primary" data-toggle="modal" data-target="#createPostModal">Post Ekle</button>
-                <button class="btn btn-primary">Etkinlik Ayarları</button>
+
+                <button class="btn btn-outline-primary" data-toggle="modal" data-target="#createPostModal">Post Ekle</button>
+
             </div>
         </div>
     </div>
@@ -108,18 +108,40 @@
     <div class="col-md-12">
         <div class="card mb-3">
             <div class="card-header p-2" style="background-color: #fff">
-                <div class="row">
-                <div class="col-md-6 col-sm-9 col-9">
-                    <h6 style="margin: 0;">  <img  style="width: 40px; border-radius: 50%;" class="mr-3 " src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="Generic placeholder image">
-                        ${eventPost.username}</h6>
-                </div>
-                    <g:if test="${eventPost.username==currentUser.username}">
+                <div class="col-md-12">
 
-                <div class="col-md-6 col-sm-3 col-3 text-right">
-                    <div class="btn-group dropleft">
-                   <button class="btn btn-sm btn-success"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-v fa-x"></span></button>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item deleteEventPost" href="#">Postu Sil</a>
+                     <img  style="width: 40px; border-radius: 50%;" class="mr-3 " src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="Generic placeholder image">
+                    <strong> ${eventPost.username}</strong> bir güncelleme paylaştı.
+
+
+
+                </div>
+            </div>
+            <div class="card-body pb-1">
+
+             <!--   <h5 class="card-title">${eventPost.title}</h5>
+                -->
+                <div class="row">
+                <div class="col-md-11" style="font-weight: normal;">
+                <g:if test="${eventPost.text}">
+                <p class="card-text" style="padding:0px 20px;">${eventPost.text}</p>
+                </g:if>
+                    <g:each var="image" in="${images}">
+                        <g:if test="${image.eventPostId == eventPost.id}">
+                            <a href="data:image/png;base64,${image.image.encodeBase64()}"  data-toggle="lightbox"  data-gallery="${eventPost.username}photos">
+                                <img style="width:50px; height: 50px; padding-left: 10px; object-fit: contain;" src="data:image/png;base64,${image.image.encodeBase64()}"/>
+                            </a>
+
+                        </g:if>
+                    </g:each>
+            </div>
+                <g:if test="${eventPost.username==currentUser.username}">
+
+                    <div class="col-md-1 col-sm-3 col-3 text-right">
+                        <div class="btn-group dropleft">
+                            <button class="btn btn-sm btn-outline-success"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-v fa-x"></span></button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item deleteEventPost" href="#">Postu Sil</a>
 
                                 <g:form action="deleteEventPost" controller="eventPost" style="display:none">
                                     <g:hiddenField name="eventPostId" value="${eventPost.id}" />
@@ -127,34 +149,32 @@
                                     <button type="submit" class="btn btn-success mt-1"></button>
                                 </g:form>
 
-                            <a class="dropdown-item" href="#">Postu Düzenle</a>
-                            <a class="dropdown-item addPhoto" id="addPhoto${eventPost.id}" >Fotoğraf Ekle</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Separated link</a>
-                            <!-- Dropdown menu links -->
+                                <a class="dropdown-item" href="#">Postu Düzenle</a>
+                                <a class="dropdown-item addPhoto" id="addPhoto${eventPost.id}" >Fotoğraf Ekle</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Separated link</a>
+                                <!-- Dropdown menu links -->
+                            </div>
                         </div>
                     </div>
-                </div>
-                    </g:if>
-
-                </div>
+                </g:if>
             </div>
-            <div class="card-body pb-1">
-             <!--   <h5 class="card-title">${eventPost.title}</h5>
+              <!--  <p class="card-text mb-1"><small class="text-muted"></small></p>
                 -->
-                <p class="card-text" style="padding:0px 20px;">${eventPost.text}</p>
-                <p class="card-text mb-1"><small class="text-muted">Last updated 3 mins ago</small></p>
+                <g:if test="${false}">
+
                 <div class="row">
                     <g:each var="image" in="${images}">
                         <g:if test="${image.eventPostId == eventPost.id}">
                             <a href="data:image/png;base64,${image.image.encodeBase64()}"  data-toggle="lightbox"  data-gallery="${eventPost.username}photos">
-                                <img style="width:40px; height: 40px; padding-left: 10px; object-fit: contain;" src="data:image/png;base64,${image.image.encodeBase64()}"/>
+                                <img style="width:50px; height: 50px; padding-left: 10px; object-fit: contain;" src="data:image/png;base64,${image.image.encodeBase64()}"/>
                             </a>
 
                         </g:if>
                     </g:each>
 
                 </div>
+            </g:if>
 
                 <g:uploadForm controller="eventPost" action="uploadPhoto" style="display: none;" >
                     <g:hiddenField name="eventId" value="${post.id}" />
@@ -164,19 +184,19 @@
                     <g:submitButton name="uploadPhotoSubmit" value="Upload"/>
                 </g:uploadForm>
             </div>
-            <div class="card-footer"  style="background: #fff;">
+            <div class="card-footer"  style="background: #fff; padding-bottom: 0px; ">
                 <g:if test="${eventPost.comments==true}">
 
 
-              <h5 class="commentBtn" style="   cursor:pointer;" > Yorumları Göster <span class="fa fa-comment"></span></h5>
+              <h6 class="commentBtn" style="   cursor:pointer;" > Yorumları Göster <span class="fa fa-comment"></span></h6>
                 <g:each var="comment" in="${comments}">
                     <g:if test="${comment.eventPostId == eventPost.id}">
-                    <div class="media" >
+                    <div class="media" style="display: none;">
                         <img  style="width: 40px; border-radius: 10%;" class="mr-3" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="Generic placeholder image">
                         <div class="media-body">
-                            <h5 class="mt-0">${comment.username}</h5>
+                            <h6 style="font-weight: bold;" class="mt-0">${comment.username}</h6>
                             ${comment.text}
-                            <div class="row mt-2 pl-4"><button class="btn btn-sm btn-primary replyBtn">Cevapla</button></div>
+                            <div class="row mt-2 pl-4"><a style="cursor: pointer" class="text-primary replyBtn">Cevapla</a></div>
                             <g:each var="reply" in="${replies}">
                                 <g:if test="${reply.commentId== comment.id}">
                             <div class="media mt-1">
@@ -184,7 +204,7 @@
                                     <img class="" style="width: 40px; border-radius: 10%;" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="Generic placeholder image">
                                 </a>
                                 <div class="media-body">
-                                    <h5 class="mt-0">${reply.username}</h5>
+                                    <h6 style="font-weight: bold;" class="mt-0">${reply.username}</h6>
                                     ${reply.text}
                                 </div>
 
@@ -197,7 +217,7 @@
                                         <g:hiddenField name="postId" value="${post.id}" />
                                         <g:hiddenField name="eventPostId" value="${eventPost.id}" />
                                         <g:hiddenField name="commentId" value="${comment.id}" />
-                                        <textarea name="text" class="form-control"  rows="1"></textarea>
+                                        <textarea name="text" class="form-control col-md-10" style="margin-right:0px; margin-left: auto;" rows="1"></textarea>
                                         <div class="col-md-12 text-right">
                                             <button type="submit" class="btn btn-success mt-1"><span class="fas fa-comments"></span>  Cevapla</button>
                                         </div>
@@ -210,10 +230,10 @@
 
                 </g:each>
 
-                    <g:form class="col-md-12 col-sm-12" style="margin:auto;  padding:50px; padding-top:0px; padding-bottom:10px;" action="newComment" controller="eventPost" >
+                    <g:form  class="col-md-12 col-sm-12" style="margin:auto; display: none;  padding:50px; padding-top:0px; padding-bottom:10px;" action="newComment" controller="eventPost" >
                     <g:hiddenField name="postId" value="${post.id}" />
                     <g:hiddenField name="eventPostId" value="${eventPost.id}" />
-                    <div class="form-group mt-1">
+                    <div class="form-group mt-1" >
                         <label style="font-weight:bold">Bir fikrin mi var? Hemen Paylaş!</label>
                         <textarea class="form-control" name="text"  rows="1"></textarea>
                     </div>

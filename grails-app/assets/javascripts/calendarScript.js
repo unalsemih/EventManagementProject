@@ -44,7 +44,13 @@ $(document).ready(function() {
 
         for (var i=0; i<postList.length; i++)
         {
+            if(postList[i].number>=postList[i].quota)
             eventList.push({eventId: i ,title:postList[i].title,start:new Date(postList[i].startDate),end:new Date(postList[i].endDate),allDay:true,className:"important",allDay:true,url:"www.google.com",reelId:postList[i].id,username:postList[i].username,description:postList[i].description,quota:postList[i].quota,number:postList[i].number});
+            else if(postList[i].type=="fun")
+                eventList.push({eventId: i ,title:postList[i].title,start:new Date(postList[i].startDate),end:new Date(postList[i].endDate),allDay:true,className:"info",allDay:true,url:"www.google.com",reelId:postList[i].id,username:postList[i].username,description:postList[i].description,quota:postList[i].quota,number:postList[i].number});
+            else if(postList[i].type=="education")
+                eventList.push({eventId: i ,title:postList[i].title,start:new Date(postList[i].startDate),end:new Date(postList[i].endDate),allDay:true,className:"success",allDay:true,url:"www.google.com",reelId:postList[i].id,username:postList[i].username,description:postList[i].description,quota:postList[i].quota,number:postList[i].number});
+
         }
         console.log(eventList);
 

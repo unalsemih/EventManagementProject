@@ -129,18 +129,18 @@
                     <li class="sidebar-dropdown">
                         <a href="#">
                             <i class="far fa-gem"></i>
-                            <span>Components</span>
+                            <span>Etkinlikler</span>
                         </a>
                         <div class="sidebar-submenu">
                             <ul>
                                 <li>
-                                    <a href="#">General</a>
+                                    <a id="funEvents"  style="cursor: pointer !important;">Eğlence Etkinlikleri</a>
                                 </li>
                                 <li>
-                                    <a href="#">Panels</a>
+                                    <a id="educationEvents"  style="cursor: pointer !important;">Eğitimler</a>
                                 </li>
                                 <li>
-                                    <a href="#">Tables</a>
+                                    <a href="#"  style="cursor: pointer !important;">Katılacaklarım</a>
                                 </li>
                                 <li>
                                     <a href="#">Icons</a>
@@ -159,16 +159,16 @@
                         <div class="sidebar-submenu">
                             <ul>
                                 <li>
-                                    <a href="#">Etkinliklerim</a>
+                                    <a href="#" style="cursor: pointer !important;">Etkinliklerim</a>
                                 </li>
                                 <li>
-                                    <a href="#">Eğitim Postlarım</a>
+                                    <a href="#" style="cursor: pointer;">Eğitim Postlarım</a>
                                 </li>
                                 <li>
-                                    <a href="#">Bar chart</a>
+                                    <a href="#" style="cursor: pointer;">Bar chart</a>
                                 </li>
                                 <li>
-                                    <a href="#">Histogram</a>
+                                    <a href="#" style="cursor: pointer;">Histogram</a>
                                 </li>
                             </ul>
                         </div>
@@ -325,7 +325,24 @@
     </div>
 </div>
 
+<script>
+    $("#funEvents").click(function () {
 
+       var url = window.location.hostname+":"+window.location.port;
+        url+="?eventType=fun";
+        document.location = url;
+    });
+    $("#educationEvents").click(function () {
+
+
+        var url = window.location.hostname+":"+window.location.port;
+        url+="/?eventType=education";
+       console.log("http://"+url);
+        window.location.href= url;
+    });
+
+
+</script>
 
 </body>
 </html>
