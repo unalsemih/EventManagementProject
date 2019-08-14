@@ -368,6 +368,28 @@ button:focus {
 
 
 
+<!--message modal begin-->
+<div class="modal fade bd-example-modal-lg" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title text-danger">Bilgilendirme</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <h6 style=""> ${messageText} </h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success btn-sm" data-dismiss="modal">Tamam</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<!--message modal end-->
 
 
 
@@ -396,7 +418,12 @@ button:focus {
     <asset:javascript src="jquery-ui.custom.min.js"/>
 
     <script>
+
         $(document).ready(function() {
+            <g:if test="${messageText}" >
+            $("#messageModal").modal("show");
+            </g:if>
+
 
             $("#comboboxTypeModal").change(function () {
 
@@ -430,6 +457,9 @@ button:focus {
                     data: {
                         title: $("#titleCalendar").val(),
                         username: "",
+                        type:document.getElementById("comboboxTypeModalCalendar").options[document.getElementById("comboboxTypeModalCalendar").selectedIndex].value,
+                        categoryId:document.getElementById("comboboxCategoryModalCalendar").options[document.getElementById("comboboxCategoryModalCalendar").selectedIndex].value,
+
                         description: $("#descriptionCalendar").val(),
                         quota: $("#quotaCalendar").val(),
                         startDate: $("#startDateCalendar").val(),
@@ -470,7 +500,14 @@ button:focus {
 
                     for (var i = 0; i < postList.length; i++) {
                         //  eventList.push({title:postList[i].title,start:new Date(postList[i].startDate),end:new Date(postList[i].endDate),allDay:true,className:"important",allDay:true,url:"www.google.com",reelId:postList[i].id});
+                     if(postList[i].number>=postList[i].quota)
                         var evnt =  {eventId: i ,title:postList[i].title,start:new Date(postList[i].startDate),end:new Date(postList[i].endDate),allDay:true,className:"important",allDay:true,url:"www.google.com",reelId:postList[i].id,username:postList[i].username,description:postList[i].description,quota:postList[i].quota,number:postList[i].number};
+
+                     else if(postList[i].type=="fun")
+                        var evnt =  {eventId: i ,title:postList[i].title,start:new Date(postList[i].startDate),end:new Date(postList[i].endDate),allDay:true,className:"info",allDay:true,url:"www.google.com",reelId:postList[i].id,username:postList[i].username,description:postList[i].description,quota:postList[i].quota,number:postList[i].number};
+                     if(postList[i].type=="education")
+                        var evnt =  {eventId: i ,title:postList[i].title,start:new Date(postList[i].startDate),end:new Date(postList[i].endDate),allDay:true,className:"success",allDay:true,url:"www.google.com",reelId:postList[i].id,username:postList[i].username,description:postList[i].description,quota:postList[i].quota,number:postList[i].number};
+
                         console.log(evnt);
                         $('#calendar').fullCalendar('renderEvent', evnt);
                     }

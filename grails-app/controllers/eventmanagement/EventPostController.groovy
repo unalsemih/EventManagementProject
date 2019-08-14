@@ -20,7 +20,7 @@ class EventPostController {
         def user = Person.findByUsername(post.username)//postu oluşturan user
 
 
-        def eventPosts = EventPost.findAllByPostId(id)
+        def eventPosts = EventPost.findAllByPostId(id).sort { it.id }
         println(post)
 
         def photos = Images.findAllByPostId(id)
@@ -59,9 +59,12 @@ class EventPostController {
         messageText = "Postunuz Oluşturuldu!"
 
 
-        for(int i=0; i<params.list("photo")?.size(); i++)
-            def photo = new Images(username: ep.username ,image: params.list("photo")?.getAt(i).bytes ,postId: params.postId,eventPostId:ep.id).save(flush:true)
+        for(int i=0; i<params.list("photo")?.size(); i++) {
 
+            if(params.list("photo")?.getAt(i).bytes.size() != 0)
+            def photo = new Images(username: ep.username, image: params.list("photo")?.getAt(i).bytes, postId: params.postId, eventPostId: ep.id).save(flush: true)
+
+        }
          println(params.list("photo")?.size())
 
         //  forward action: 'index', params: [id: params.postId]

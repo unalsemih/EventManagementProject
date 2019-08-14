@@ -25,7 +25,8 @@ class PostController {
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def posts(String eventType,int categoryId) {
-
+        def message = messageText;
+        messageText = ""
         println("durum1")
         if(currentUserAvatar())
             println("true döndü yani var...")
@@ -91,7 +92,7 @@ class PostController {
         println(eventType)
         println("categoryList")
         println(categoryList)
-        render(view:'posts',model:[allposts:Allposts,currentUser:currentUser,messageText:messageText,listPost:listPost,eventType:eventType,categoryList:categoryList])
+        render(view:'posts',model:[allposts:Allposts,currentUser:currentUser,messageText:message,listPost:listPost,eventType:eventType,categoryList:categoryList])
 
     }
 
@@ -101,15 +102,23 @@ class PostController {
 
             println("basla")
             println("paramslar : "+params)
+
+
             def post = new Post(params)
-           // post.startDate = ((Date)(params.startDate)).format("YYYY-MM-DD HH:mm:ss.Ms")
-           // println("start date :" + post.startDate)
+            if(post.startDate.compareTo(post.endDate)>0) {
+                messageText="Başlangıç Tarihi Bitiş Tarihinden daha ileride olamaz!"
+                redirect(action: 'posts')
+            }
+            else {
+                // post.startDate = ((Date)(params.startDate)).format("YYYY-MM-DD HH:mm:ss.Ms")
+                // println("start date :" + post.startDate)
 
-           // post.number=0;
-            post.save(flush: true)
-           // messageText = "Etkinliğiniz oluşturuldu!"
-            redirect(action:'posts')
+                // post.number=0;
+                post.save(flush: true)
 
+                messageText = "Etkinlik oluşturuldu!"
+                redirect(action: 'posts')
+            }
         }
         catch (Exception e)
         {
