@@ -62,7 +62,7 @@ button:focus {
                                     <g:if test="${categoryList}">
                                     <label style="font-weight: bold;">Category</label>
                                     <select class="form-control" id="comboboxCategory" onchange="changeCategory()">
-                                        <option>Tümü</option>
+                                        <option value="0">Tümü</option>
                                         <g:each var="category" in="${categoryList}">
                                             <option value="${category.id}">${category.name}</option>
                                         </g:each>

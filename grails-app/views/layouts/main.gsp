@@ -327,10 +327,10 @@
 
 <script>
     $("#funEvents").click(function () {
-
-       var url = window.location.hostname+":"+window.location.port;
-        url+="?eventType=fun";
-        document.location = url;
+        var url = window.location.hostname+":"+window.location.port;
+        url+="/?eventType=fun";
+        console.log("http://"+url);
+        window.location.href= "http://"+url;
     });
     $("#educationEvents").click(function () {
 
@@ -338,7 +338,7 @@
         var url = window.location.hostname+":"+window.location.port;
         url+="/?eventType=education";
        console.log("http://"+url);
-        window.location.href= url;
+        window.location.href= "http://"+url;
     });
 
 
