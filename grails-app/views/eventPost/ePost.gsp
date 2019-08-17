@@ -72,12 +72,12 @@
                     <small>Etkinlik ${post.startDate} - ${post.endDate} tarihleri arasında gerçekleşecektir.</small>
                     <hr>
                     <h6>
-                        <g:if test="${user.photo}">
+                        <g:if test="${userAvatar.photo}">
 
-                            <img class="card-img-top mt-2 img-fluid img-thumbnail" style="border-radius: 50%;width:80px; height:80px; object-fit: cover;" src="http://localhost:8089/signUp/displayAvatarForCurrentUser" alt="Card image cap">
+                            <img class="card-img-top mt-2 img-fluid img-thumbnail" style="border-radius: 50%;width:80px; height:80px; object-fit: cover;" src="data:image/png;base64,${userAvatar.avatar.encodeBase64()}" alt="Card image cap">
 
                         </g:if>
-                        <g:if test="${user.photo==false}">
+                        <g:if test="${userAvatar.photo==false}">
 
                             <img class="card-img-top mt-2 img-fluid img-thumbnail" style="border-radius: 50%;width:80px; height:80px; object-fit: cover;" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="Card image cap">
 

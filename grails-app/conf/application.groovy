@@ -6,6 +6,8 @@ grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'eventmanagemen
 grails.plugin.springsecurity.authority.className = 'eventmanagement.Role'
 grails.plugin.springsecurity.fii.rejectPublicInvocations = false
 grails.plugin.springsecurity.logout.postOnly = false
+grails.plugin.springsecurity.successHandler.alwaysUseDefault = true
+grails.plugin.springsecurity.successHandler.defaultTargetUrl = '/post/posts'
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	[pattern: '/',               access: ['permitAll']],
 	[pattern: '/error',          access: ['permitAll']],

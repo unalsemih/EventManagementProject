@@ -23,78 +23,7 @@ class PostController {
     }
 
 
-    @Secured(['ROLE_ADMIN','ROLE_USER'])
-    def posts(String eventType,int categoryId) {
-        def message = messageText;
-        messageText = ""
-        println("durum1")
-        if(currentUserAvatar())
-            println("true döndü yani var...")
-        else
-            println("false döndü yani yok")
-        //Post.getAll()
 
-        //int size = Post.getAll().size()
-        def Allposts
-        int size
-        println("category durumu : ")
-        println(categoryId)
-        println("eventtype durumu : ")
-        println(eventType)
-        if(categoryId!=null && categoryId!=0) {
-            Allposts = Post.where {
-                categoryId == categoryId
-            }.list()
-
-        }
-        else if(eventType=="fun")
-             Allposts = (Post.findAllByType("fun")).sort{it.id}
-
-        else if(eventType == "education")
-             Allposts = (Post.findAllByType("education")).sort { it.id }
-        else
-            Allposts = (Post.getAll()).sort { it.id }
-        println("aaa3")
-        size = Allposts.size()
-        println("aaa4")
-        PostUserEventStatus[] listPost = new PostUserEventStatus[size];
-
-
-        println("---")
-        for (int i=0; i<size; i++) {
-
-            PostUserEventStatus postStatus = new PostUserEventStatus();
-            postStatus.post = Allposts[i]
-
-            Participation a = Participation.findByPostIdAndUsername(Allposts[i].id, springSecurityService.getCurrentUser().username)
-            if(a!=null)
-                postStatus.status=true
-            else
-                postStatus.status=false
-            println(postStatus.status)
-            listPost[i] = postStatus
-
-        }
-
-        def categoryList = Category.findAllByType(eventType)
-
-        def currentUser = springSecurityService.getCurrentUser()
-        println("BİTİŞŞŞŞŞŞŞ")
-        println("Allposts")
-        println(Allposts)
-        println("currentUser")
-        println(currentUser)
-        println("messageText")
-        println(messageText)
-        println("listPost")
-        println(listPost)
-        println("eventType")
-        println(eventType)
-        println("categoryList")
-        println(categoryList)
-        render(view:'posts',model:[allposts:Allposts,currentUser:currentUser,messageText:message,listPost:listPost,eventType:eventType,categoryList:categoryList])
-
-    }
 
     @Secured(['ROLE_ADMIN'])
     def createPost() {
@@ -196,7 +125,7 @@ class PostController {
             def post = Post.get(postId);
             post.number+=1;
             post.save(flush:true)
-
+            messageText="Etkinliğe katıldınız!"
         }
         else {
             messageText = "Zaten bu etkinliğe katıldınız!"
@@ -219,7 +148,7 @@ class PostController {
             def post = Post.get(postId);
             post.number-=1;
             post.save(flush:true)
-
+            messageText="Etkinlikten Çıktınız!"
         }
         else {
             messageText = "Etkinliğe Katılmadınız!"
@@ -250,6 +179,67 @@ class PostController {
         render list as JSON
     }
 
+
+    @Secured(['ROLE_ADMIN','ROLE_USER'])
+    def posts(String eventType,int categoryId) {
+        def message = messageText;
+        messageText = ""
+        println("durum1")
+        if(currentUserAvatar())
+            println("true döndü yani var...")
+        else
+            println("false döndü yani yok")
+        //Post.getAll()
+
+        //int size = Post.getAll().size()
+        def Allposts
+        int size
+        println("category durumu : ")
+        println(categoryId)
+        println("eventtype durumu : ")
+        println(eventType)
+        if(categoryId!=null && categoryId!=0) {
+            Allposts = Post.where {
+                categoryId == categoryId
+            }.list()
+
+        }
+        else if(eventType=="fun")
+            Allposts = (Post.findAllByType("fun")).sort{it.id}
+
+        else if(eventType == "education")
+            Allposts = (Post.findAllByType("education")).sort { it.id }
+        else
+            Allposts = (Post.getAll()).sort { it.id }
+        println("aaa3")
+        size = Allposts.size()
+        println("aaa4")
+        PostUserEventStatus[] listPost = new PostUserEventStatus[size];
+
+
+        println("---")
+        for (int i=0; i<size; i++) {
+
+            PostUserEventStatus postStatus = new PostUserEventStatus();
+            postStatus.post = Allposts[i]
+
+            Participation a = Participation.findByPostIdAndUsername(Allposts[i].id, springSecurityService.getCurrentUser().username)
+            if(a!=null)
+                postStatus.status=true
+            else
+                postStatus.status=false
+            println(postStatus.status)
+            listPost[i] = postStatus
+
+        }
+
+        def categoryList = Category.findAllByType(eventType)
+
+        def currentUser = springSecurityService.getCurrentUser()
+
+        render(view:'posts',model:[allposts:Allposts,currentUser:currentUser,messageText:message,listPost:listPost,eventType:eventType,categoryList:categoryList])
+
+    }
 }
 
 class PostUserEventStatus{

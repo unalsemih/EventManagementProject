@@ -24,9 +24,10 @@ class EventPostController {
         println(post)
 
         def photos = Images.findAllByPostId(id)
+        def userAvatar = Person.findByUsername(post.username)
         def comments = Comment.findAllByPostId(id)
         def replies = Reply.findAllByPostId(id)
-        List<String,byte[]> userAvatar = []
+     //   List<String,byte[]> userAvatar = []
 
         //for(int i=0; i<eventPosts.size(); i++)
         //    userAvatar.push(eventPosts[i].username,Person.findByUsername(eventPosts[i].username).avatar)
