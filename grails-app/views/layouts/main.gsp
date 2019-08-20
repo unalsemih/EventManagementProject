@@ -152,18 +152,25 @@
                         </div>
                     </li>
                     <li class="sidebar-dropdown">
-                        <a href="#">
+                            <a href="#">
                             <i class="fa fa-chart-line"></i>
-                            <span>Postlarım</span>
-                        </a>
+                            <span>Gruplar</span>
+                            </a>
                         <div class="sidebar-submenu">
                             <ul>
                                 <li>
-                                    <a href="#" style="cursor: pointer !important;">Etkinliklerim</a>
+                                    <g:link controller="community" action="groups">
+                                        Grupları Listele
+                                    </g:link>
+
                                 </li>
+                            <sec:ifAllGranted roles="ROLE_ADMIN">
                                 <li>
-                                    <a href="#" style="cursor: pointer;">Eğitim Postlarım</a>
+                                    <g:link controller="request" action="index">
+                                        Bekleyen İstekler
+                                    </g:link>
                                 </li>
+                            </sec:ifAllGranted>
                                 <li>
                                     <a href="#" style="cursor: pointer;">Bar chart</a>
                                 </li>
@@ -233,11 +240,11 @@
                         </div>
                     </li>
                     <li>
-                        <a href="#">
+    <g:link controller="community" action="groups">
                             <i class="fa fa-book"></i>
-                            <span>Documentation</span>
+                            <span>Gruplar</span>
                             <span class="badge badge-pill badge-primary">Beta</span>
-                        </a>
+    </g:link>
                     </li>
                     <li>
                         <a href="#">

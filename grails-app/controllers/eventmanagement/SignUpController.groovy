@@ -60,11 +60,22 @@ class SignUpController {
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def getUserAvatar(String username) {
+
         Person person = Person.findByUsername(username)
+        PersonAvatar p = new PersonAvatar()
+        p.id = person.id
+        p.photo = person.photo
+        p.avatar = Base64.getEncoder().encodeToString(person.avatar);
         if(person!=null)
-            render person.avatar as JSON
+            render p as JSON
     }
 
 
 
+}
+
+class PersonAvatar{
+    public int id
+    public Boolean photo
+    public String avatar
 }

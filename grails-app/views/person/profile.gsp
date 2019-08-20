@@ -19,17 +19,17 @@
         <tbody>
         <tr style="font-family: 'Quicksand', sans-serif;">
             <td class="align-middle text-center">
-                <g:if test="${ person.avatar == null}">
+                <g:if test="${ person.photo == false}">
 
-                    <img class="img-responsive img-rounded" style="width: 200px; height:200px; border-radius: 50%;" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg"
+                    <img class="img-responsive img-rounded" style="width: 200px;  height:200px; border-radius: 50%;" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg"
                          alt="User picture">
                 </g:if>
-                <g:if test="${ person.avatar != null}">
-                    <img class="img-responsive img-rounded"  style="width: 200px; height:200px; border-radius: 50%;"  src="http://localhost:8089/signUp/displayAvatarForCurrentUser"
+                <g:if test="${ person.photo==true}">
+                    <img class="img-responsive img-rounded" id="userPhoto" username="${person.username}" style="object-fit: cover; width: 200px; height:200px; border-radius: 50%;"  src=""
                          alt="User picture">
 
                 </g:if>
-                <h5 class="mt-4" style="font-weight: bold; font-size: 26pt;">${currentUser.username}</h5>
+                <h5 class="mt-4" style="font-weight: bold; font-size: 26pt;">${person.username}</h5>
             </td>
         </tr>
         </tbody>
@@ -146,5 +146,13 @@
         </div>
     </div>
 </div>
+<asset:javascript src="jquery-2.2.0.min.js"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function () {
+        getUserAvatar($("#userPhoto"));
+    })
+</script>
 </body>
 </html>

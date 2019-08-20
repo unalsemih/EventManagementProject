@@ -118,8 +118,8 @@
             <div class="card-header p-2" style="background-color: #fff">
                 <div class="col-md-12">
 
-                     <img  style="width: 40px; border-radius: 50%;" class="mr-3 imgAvatar" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="Generic placeholder image">
-                    <strong> ${eventPost.username}</strong> bir güncelleme paylaştı.
+                     <img  style="width: 40px; border-radius: 50%;" username="${eventPost.username}" class="mr-3 imgAvatar" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="Generic placeholder image">
+                    <strong>${eventPost.username}</strong> bir güncelleme paylaştı.
 
 
 
@@ -200,7 +200,7 @@
                 <g:each var="comment" in="${comments}">
                     <g:if test="${comment.eventPostId == eventPost.id}">
                     <div class="media" style="display: none;">
-                        <img  style="width: 40px; border-radius: 10%;" class="mr-3" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="Generic placeholder image">
+                        <img  style="width: 40px; border-radius: 10%;" class="mr-3 imgAvatar" username="${comment.username}" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="Generic placeholder image">
                         <div class="media-body">
                             <h6 style="font-weight: bold;" class="mt-0">${comment.username}</h6>
                             ${comment.text}
@@ -209,7 +209,7 @@
                                 <g:if test="${reply.commentId== comment.id}">
                             <div class="media mt-1">
                                 <a class="pr-3" href="#">
-                                    <img class="" style="width: 40px; border-radius: 10%;" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="Generic placeholder image">
+                                    <img class="imgAvatar" username="${reply.username}" style="width: 40px; border-radius: 10%;" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="Generic placeholder image">
                                 </a>
                                 <div class="media-body">
                                     <h6 style="font-weight: bold;" class="mt-0">${reply.username}</h6>
@@ -355,7 +355,17 @@
         </g:if>
 
 
+        var images = $('.imgAvatar').map(function(){
+            //return $(this).attr('src')
+            return $(this)
+        }).get()
+        console.log(images);
+        $.each( images, function( key, value ) {
+            console.log($(value).attr('src'));
+         getUserAvatar($(value));
+          //console.log(element.attr("src"));
 
+        });
 
 
     });

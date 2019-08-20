@@ -90,4 +90,15 @@ function eventClickFunction(id)
     $("#endDateInfo").val(convertMyDate(eventObj.end));
 }
 
+/*      Profil Resmi    */
 
+function  getUserAvatar(imgElement) {
+    $.getJSON("/../signUp/getUserAvatar/?username="+$(imgElement).attr('username'), function (data) {
+
+        if(data.photo==true)
+            $(imgElement).prop('src','data:image/png;base64,'+data.avatar);
+        else{}
+            return imgElement
+
+    });
+}
