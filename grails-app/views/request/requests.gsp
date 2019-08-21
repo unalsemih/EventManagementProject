@@ -30,9 +30,9 @@
             <td>${request.username}</td>
 
             <td>
-                <g:link class="btn btn-sm btn-success" controller="community" action="join"  params="[groupId:request.requests.userId]">
+                <g:link class="btn btn-sm btn-success" controller="request" action="join"  params="[groupId:request.requests.groupId,userId:request.requests.userId]">
                 Onayla</g:link>
-                <g:link class="btn btn-sm btn-danger" controller="community" action="deleteRequest" params="[groupId:0]">
+                <g:link class="btn btn-sm btn-danger" controller="request" action="delete" params="[groupId:request.requests.groupId,userId:request.requests.userId]">
                     Sil</g:link>
             </td>
         </tr>

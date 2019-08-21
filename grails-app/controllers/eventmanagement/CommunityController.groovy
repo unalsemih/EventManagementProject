@@ -14,7 +14,7 @@ class CommunityController {
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def groups(){
         println("ww")
-        def groups = Community.getAll()
+        def groups = Community.findAllByStatus(true)
         def message
         CommunityStatus[] gruplar = new CommunityStatus[groups.size()]
         for(int i=0; i<groups.size(); i++)
@@ -57,6 +57,10 @@ class CommunityController {
     def requests(int groupId) {
 
         def groupRequest = Requests.getAll()
+
+        if(messageText!="")
+            message = messageText
+        messageText=""
         render (view:"groups",model: [currentUser:springSecurityService.currentUser,
                                       requests:groupRequest,
                                       message:message]);
@@ -99,9 +103,58 @@ class CommunityController {
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def createGroup(){
         def group = new Community(params).save(flush:true)
+        def groupUser = new GroupUsers(userId: params.userId,groupId: group.id).save(flush:true)
         messageText="Grup Oluşturma işlemi tamamlandı!"
         redirect(action: 'groups')
     }
+
+
+    @Secured(['ROLE_ADMIN','ROLE_USER'])
+    def join(int groupId,int userId) {
+
+        def groupRequest = Requests.findByUserIdAndGroupId(userId as int,groupId as int)
+        if(groupRequest!=null) {
+            groupRequest.delete()
+            def newUser = new GroupUsers(userId: userId,groupId: groupId).save(flush:true)
+            messageText="Kullanıcı gruba eklendi!"
+        }
+        else
+        {
+            messageText="İstek bulunamadı!"
+        }
+        redirect(action: "requests")
+
+    }
+
+    @Secured(['ROLE_ADMIN','ROLE_USER'])
+    def notJoin(int groupId) {
+
+        def groupUser = GroupUsers.findByUserIdAndGroupId(springSecurityService.getCurrentUser().id as int,groupId as int)
+        if(groupUser!=null) {
+            groupUser.delete(flush:true)
+            messageText="Gruptan Çıktınız!!"
+        }
+        else
+        {
+            messageText="Grupta Kaydınız Bulunamadı!"
+        }
+        redirect(action: "groups")
+
+    }
+
+
+    @Secured(['ROLE_ADMIN','ROLE_USER'])
+    def deleteGroup(int groupId) {
+
+        def group = Community.get(groupId)
+        group.status = false
+        group.save(flush:true)
+        messageText = "Grup Kapatıldı!"
+        redirect(action: "groups")
+
+    }
+
+
 
 }
 

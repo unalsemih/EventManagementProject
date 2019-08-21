@@ -21,6 +21,9 @@
 </div>
 <div class="shadow p-3 mb-5 bg-white rounded">
 <g:each var="group" in="${groups}">
+
+
+
 <div class="card mt-4">
     <div class="card-header">
         <div class="col-md-12">
@@ -37,8 +40,15 @@
             <div class="col-md-9 text-success">Bu grupta ${group.community.number} üye bulunmaktadır.</div>
         <div class="col-md-3 text-right">
             <td>
-                <g:if test="${group.status=="Gruptan Ayrıl"}">
-                    <g:link class="btn btn-sm btn-danger" controller="community" action="joinRequest" params="[groupId: group.community.id]">
+
+                <g:if test="${group.community.userId == currentUser.id}">
+                    <g:link class="btn btn-sm btn-danger" controller="community" action="deleteGroup" params="[groupId: group.community.id]">
+                        Grubu Kapat</g:link>
+                </g:if>
+
+                <g:if test="${group.status=="Gruptan Ayrıl" && group.community.userId != currentUser.id}">
+
+                    <g:link class="btn btn-sm btn-danger" controller="community" action="notJoin" params="[groupId: group.community.id]">
                         ${group.status}</g:link>
                 </g:if>
                 <g:if test="${group.status=="Katıl"}">
@@ -55,6 +65,7 @@
         </div>
     </div>
 </div>
+
 </g:each>
 </div>
 <div class="modal" tabindex="-1" role="dialog" id="createGroup">

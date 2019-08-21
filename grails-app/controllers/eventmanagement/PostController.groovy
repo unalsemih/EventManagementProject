@@ -248,6 +248,16 @@ class PostController {
         render(view:'posts',model:[allposts:Allposts,currentUser:currentUser,messageText:message,listPost:listPost,eventType:eventType,categoryList:categoryList])
 
     }
+
+
+    @Secured(['ROLE_ADMIN'])
+    def edit(int id) {
+        def post = Post.get(id)
+        def currentUser = springSecurityService.getCurrentUser()
+        if(post!=null)
+            render(view:"edit",model:[post:post,currentUser:currentUser])
+    }
+
 }
 
 class PostUserEventStatus{

@@ -8,28 +8,61 @@ class RequestController {
     def messageText=""
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
-    def join(int groupId) {
-        GroupUsers a = GroupUsers.findByGroupIdAndUserId(groupId,springSecurityService.getCurrentUser().id as int)
+    def join(int groupId,int userId) {
+        GroupUsers a = GroupUsers.findByGroupIdAndUserId(groupId as int,userId as int)
+        println("deneme1")
         if(a==null) // kullanıcı katılmamış ... katılma işlemi burada yapılıyor...
-        {
-            def groupUser = new GroupUsers(userId: springSecurityService.getCurrentUser().id as int ,groupId: groupId as int)
+        {println("deneme2")
+            def groupUser = new GroupUsers(userId: userId as int ,groupId: groupId as int)
             groupUser.save(flush: true)
-            def group = Group.get(groupId);
+            println("deneme3")
+            def group = Community.get(groupId);
             group.number+=1;
             group.save(flush:true)
-            messageText="Etkinliğe katıldınız!"
+            println("deneme4")
+            messageText="Kullanıcı gruba eklendi!"
+
+            def groupRequest = Requests.findByGroupIdAndUserId(groupId as int,userId as int)
+            if(groupRequest !=null)
+            groupRequest.delete(flush:true)
         }
         else {
-            messageText = "Zaten bu etkinliğe katıldınız!"
+            messageText = "Kullanıcı zaten grupta!"
             println("else e girdi")
 
         }
-        redirect(action:'posts')
+        redirect(action:'index')
+    }
+    @Secured(['ROLE_ADMIN','ROLE_USER'])
+    def delete(int groupId,int userId) {
+
+        def groupRequest = Requests.findByUserIdAndGroupId(userId as int,groupId as int)
+        if(groupRequest!=null) {
+            groupRequest.delete()
+            messageText = "İsteği iptal ettiniz!"
+        }
+        else
+        {
+            messageText="İstek bulunamadı!"
+        }
+        redirect(action: "index")
+
     }
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def index() {
         def requests = Requests.getAll()
+        println(requests)
+        for(int i=0; i<requests.size(); i++)
+        {
+            if (Community.get(requests[i].groupId).status==false as boolean)
+                    requests.remove(i)
+            else if(springSecurityService.currentUser.id as int != Community.get(requests[i].groupId).userId as int)
+                    requests.remove(i)
+            else
+            println("iç kısım")
+            println(requests)
+        }
         def message
 
         RequestList[] list = new RequestList[requests.size()]
