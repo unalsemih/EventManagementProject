@@ -164,7 +164,49 @@ class PostController {
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def calendar(){
-        render(view:'calendar',model:[currentUser:springSecurityService.getCurrentUser()])
+        def message = messageText;
+        messageText = ""
+        println("durum1")
+        if(currentUserAvatar())
+            println("true döndü yani var...")
+        else
+            println("false döndü yani yok")
+        //Post.getAll()
+
+        //int size = Post.getAll().size()
+        def Allposts
+        int size
+
+            Allposts = (Post.getAll()).sort { it.id }
+        Allposts = Allposts.reverse()
+        println("aaa3")
+        size = Allposts.size()
+        println("aaa4")
+        PostUserEventStatus[] listPost = new PostUserEventStatus[size];
+
+
+        println("---")
+        for (int i=0; i<size; i++) {
+
+            PostUserEventStatus postStatus = new PostUserEventStatus();
+            postStatus.post = Allposts[i]
+
+            Participation a = Participation.findByPostIdAndUsername(Allposts[i].id, springSecurityService.getCurrentUser().username)
+            if(a!=null)
+                postStatus.status=true
+            else
+                postStatus.status=false
+            println(postStatus.status)
+            listPost[i] = postStatus
+
+        }
+
+
+
+        def currentUser = springSecurityService.getCurrentUser()
+
+        render(view:'calendar',model:[allposts:Allposts,currentUser:currentUser,messageText:message,listPost:listPost])
+
     }
 
 
@@ -219,6 +261,7 @@ class PostController {
             Allposts = (Post.findAllByType("education")).sort { it.id }
         else
             Allposts = (Post.getAll()).sort { it.id }
+        Allposts = Allposts.reverse()
         println("aaa3")
         size = Allposts.size()
         println("aaa4")

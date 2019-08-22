@@ -4,7 +4,7 @@ import grails.databinding.BindingFormat
 
 class EventPost {
 
-    String title
+    String title=" "
     String text
     String postId
     String username

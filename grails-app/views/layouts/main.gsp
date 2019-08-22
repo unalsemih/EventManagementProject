@@ -82,50 +82,7 @@
                     <li class="header-menu">
                         <span>General</span>
                     </li>
-                    <li class="sidebar-dropdown">
-                        <a href="#">
-                            <i class="fa fa-tachometer-alt"></i>
-                            <span>Dashboard</span>
-                            <span class="badge badge-pill badge-warning">New</span>
-                        </a>
-                        <div class="sidebar-submenu">
-                            <ul>
-                                <li>
-                                    <a href="#">Dashboard 1
-                                        <span class="badge badge-pill badge-success">Pro</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">Dashboard 2</a>
-                                </li>
-                                <li>
-                                    <a href="#">Dashboard 3</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="sidebar-dropdown">
-                        <a href="#">
-                            <i class="fa fa-shopping-cart"></i>
-                            <span>E-commerce</span>
-                            <span class="badge badge-pill badge-danger">3</span>
-                        </a>
-                        <div class="sidebar-submenu">
-                            <ul>
-                                <li>
-                                    <a href="#">Products
 
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">Orders</a>
-                                </li>
-                                <li>
-                                    <a href="#">Credit cart</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
                     <li class="sidebar-dropdown">
                         <a href="#">
                             <i class="far fa-gem"></i>
@@ -134,20 +91,21 @@
                         <div class="sidebar-submenu">
                             <ul>
                                 <li>
-                                    <a id="funEvents"  style="cursor: pointer !important;">Eğlence Etkinlikleri</a>
+                                    <g:link  controller="post" action="posts">
+                                        Tüm Etkinlikler</g:link>
+                                </li>
+
+                                <li>
+                                    <g:link controller="post" action="posts"  params="[eventType:'fun']">
+                                        Eğlence Etkinlikleri</g:link>
                                 </li>
                                 <li>
-                                    <a id="educationEvents"  style="cursor: pointer !important;">Eğitimler</a>
+                                    <g:link controller="post" action="posts"  params="[eventType:'education']">
+                                        Eğitim Etkinlikleri</g:link>
                                 </li>
-                                <li>
-                                    <a href="#"  style="cursor: pointer !important;">Katılacaklarım</a>
-                                </li>
-                                <li>
-                                    <a href="#">Icons</a>
-                                </li>
-                                <li>
-                                    <a href="#">Forms</a>
-                                </li>
+
+
+
                             </ul>
                         </div>
                     </li>
@@ -158,6 +116,8 @@
                             </a>
                         <div class="sidebar-submenu">
                             <ul>
+
+
                                 <li>
                                     <g:link controller="community" action="groups">
                                         Grupları Listele
@@ -169,6 +129,12 @@
                                     <g:link controller="request" action="index">
                                         Bekleyen İstekler
                                     </g:link>
+                                </li>
+                                <li>
+                                    <g:link controller="community" action="groups">
+                                        Katıldığım Gruplar
+                                    </g:link>
+
                                 </li>
                             </sec:ifAllGranted>
                                 <li>
@@ -202,25 +168,8 @@
                             </ul>
                         </div>
                     </li>
-                    <li class="sidebar-dropdown">
-                        <a href="#">
-                            <i class="fa fa-globe"></i>
-                            <span>Maps</span>
-                        </a>
-                        <div class="sidebar-submenu">
-                            <ul>
-                                <li>
-                                    <a href="#">Google maps</a>
-                                </li>
-                                <li>
-                                    <a href="#">Open street map</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="header-menu">
-                        <span>Extra</span>
-                    </li>
+
+
                     <li class="sidebar-dropdown">
                         <a href="#">
                             <i class="fa fa-globe"></i>
@@ -228,6 +177,10 @@
                         </a>
                         <div class="sidebar-submenu">
                             <ul>
+                                <li>
+                                    <g:link controller="person"  action="profile" params="[username: currentUser.username]">Profilim</g:link>
+
+                                </li>
                                 <li>
                                     <a id="changeAvatar" href="#">Profil Resmi Değiştir</a>
                                 </li>
@@ -239,18 +192,14 @@
                             </ul>
                         </div>
                     </li>
+
                     <li>
-    <g:link controller="community" action="groups">
-                            <i class="fa fa-book"></i>
-                            <span>Gruplar</span>
-                            <span class="badge badge-pill badge-primary">Beta</span>
-    </g:link>
-                    </li>
-                    <li>
-                        <a href="#">
+                        <g:link controller="post"  action="calendar">
                             <i class="fa fa-calendar"></i>
-                            <span>Calendar</span>
-                        </a>
+                            <span>Calendar</span></g:link>
+
+
+
                     </li>
                     <li>
                         <a href="">

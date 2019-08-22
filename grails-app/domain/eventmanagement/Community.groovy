@@ -6,7 +6,7 @@ class Community {
     int userId
     String name
     String description
-    int number=0
+    int number=1
     Date date
     boolean status = true
     static constraints = {

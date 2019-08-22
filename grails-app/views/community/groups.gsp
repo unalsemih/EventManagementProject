@@ -13,9 +13,11 @@
 </head>
 
 <body>
+<sec:ifAllGranted roles="ROLE_ADMIN">
 <div class="row">
-    <button class="btn btn-info" data-toggle="modal" data-target="#createGroup">Yeni Post Oluştur</button>
+    <button class="btn btn-info" data-toggle="modal" data-target="#createGroup">Yeni Grup Oluştur</button>
 </div>
+</sec:ifAllGranted>
 <div class="col-md-12 text-center">
     <h4>Gruplar</h4>
 </div>

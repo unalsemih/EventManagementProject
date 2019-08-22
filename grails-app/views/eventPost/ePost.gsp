@@ -157,10 +157,10 @@
                                     <button type="submit" class="btn btn-success mt-1"></button>
                                 </g:form>
 
-                                <a class="dropdown-item" href="#">Postu Düzenle</a>
-                                <a class="dropdown-item addPhoto" id="addPhoto${eventPost.id}" >Fotoğraf Ekle</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Separated link</a>
+                                <a class="dropdown-item addPhoto" id="addPhoto${eventPost.id}" >Fotoğraf Ekle</a>
+
+
                                 <!-- Dropdown menu links -->
                             </div>
                         </div>
@@ -285,7 +285,8 @@
 
                 <g:form action="newEventPost" controller="eventPost" enctype="multipart/form-data">
                     <fieldset class="form">
-                        <div class="form-group">
+                        
+                        <div class="form-group" style="display: none;">
                             <label for="title">Post Başlığı</label>
                             <g:field type="text" name="title" class="form-control" />
                         </div>

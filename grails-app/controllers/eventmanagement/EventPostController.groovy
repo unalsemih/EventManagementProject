@@ -21,6 +21,7 @@ class EventPostController {
 
 
         def eventPosts = EventPost.findAllByPostId(id).sort { it.id }
+        eventPosts = eventPosts.reverse()
         println(post)
 
         def photos = Images.findAllByPostId(id)
