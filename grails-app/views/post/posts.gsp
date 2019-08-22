@@ -99,9 +99,19 @@ button:focus {
                                     <tr>
                                         <th scope="row">${post.post.id}</th>
 
-                                        <td><a href="/eventPost?id=${post.post.id}"  style="color:#d1ecf1;">${post.post.title}</a></td>
+                                        <td>
+
+                                            <g:link  controller="eventPost" action="index" params="[id: post.post.id]" style="color:#d1ecf1;">
+                                                ${post.post.title}
+                                            </g:link>
+                                        </td>
                                         <td> ${post.post.startDate} <br> ${post.post.endDate}</td>
-                                        <td>${post.post.username}</td>
+                                        <td>
+                                            <g:link  controller="person" action="profile" params="[username: post.post.username]" style="color:#d1ecf1;">
+                                                ${post.post.username}
+                                            </g:link>
+
+                                        </td>
                                         <td style="text-align:center">${post.post.number}/${post.post.quota}</td>
                                         <g:if test="${post.status==false}">
                                             <g:if test="${post.post.quota<=post.post.number}">
@@ -120,11 +130,14 @@ button:focus {
                                             <td><button onclick="userList(${post.post.id})"  class="btn btn-sm btn-info " data-toggle="modal" data-target=".bd-example-modal-sm"> ${post.post.number}  kişi</button>
                                                 <g:if test="${currentUser.username==post.post.username}">
                                                     <g:link class="btn btn-sm btn-danger" controller="post" action="deletePost" params="[postId: post.post.id]">Sil</g:link>
-                                                </g:if></td>
+                                                </g:if>
 
+
+                                            <g:if test="${post.post.username==currentUser.username}">
+                                                <button class="btn btn-warning btn-sm editPost" postId="${post.post.id}">Düzenle</button>
+                                            </g:if>
+                                            </td>
                                         </sec:ifAllGranted>
-
-
                                     </tr>
                                 </g:each>
 
@@ -369,6 +382,66 @@ button:focus {
 </div>
 
 <!-- info modal end -->
+<!-- edit modal begin-->
+
+<!-- Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Event Düzenle</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <g:form action="editPost" controller="post">
+                    <fieldset class="form">
+                        <div class="form-group">
+                        <g:hiddenField id="idEditModal" name="id"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="title">Title</label>
+                            <g:field  type="text" name="title" class="form-control" id="titleEditModal"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="Description">Description</label>
+                            <g:field type="text" name="description" class="form-control"  id="descriptionEditModal"/>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="quota">Kontenjan</label>
+                            <g:field required type="number" name="quota" class="form-control" id="quotaEditModal" value="10" />
+                        </div>
+                        <div class="form-group">
+                            <label for="startDate">Start</label>
+                            <g:field type="datetime-local" value="2019-08-06T00:00:00" name="startDate" id="startEditModal" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="endDate">End</label>
+                            <g:field type="datetime-local" value="2011-08-06T00:00:00"  id="endEditModal" name="endDate" class="form-control" />
+                        </div>
+
+                    </fieldset>
+                    <div class="col-md-12 text-center">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                        <g:submitButton name="edit" value="Düzenle" class="btn btn-success " />
+
+                    </div>
+                </g:form>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- edit modal end -->
+
+
 
 
 
@@ -429,6 +502,50 @@ button:focus {
             <g:if test="${messageText}" >
             $("#messageModal").modal("show");
             </g:if>
+
+
+            $(".editPost").click(function () {
+                $("#editModal").modal("show");
+                var id = $(this).attr("postId");
+                $.getJSON("http://localhost:8089/post/getPost?id="+id, function (data) {
+alert(id);
+                    $("#titleEditModal").val(data.title);
+                    $("#descriptionEditModal").val(data.description);
+                    $("#quotaEditModal").val(""+data.quota);
+
+                    $("#startEditModal").val(convertMyDate(new Date(data.startDate)));
+                    $("#endEditModal").val(convertMyDate(new Date(data.endDate)));
+                    $("#idEditModal").val(""+data.id);
+                    //$("#idEditModal").attr("value","1");
+                });
+            });
+
+
+
+
+
+
+
+
+
+
+
+            var selectedValueComb = document.getElementById("comboboxTypeModal").options[document.getElementById("comboboxTypeModal").selectedIndex].value;
+
+            $.ajax({
+                url: "/category/getCategory?type="+selectedValueComb,
+                type: 'GET',
+                dataType: 'json', // added data type
+                success: function(res) {
+                    console.log(res);
+                    $("#categoryModal option").remove();
+
+                    $.each(res, function (item, val) {
+                        $("#categoryModal").append("<option value='"+val.id+"'>" + val.name + "</option>");
+                    });
+
+                }
+            });
 
 
             $("#comboboxTypeModal").change(function () {

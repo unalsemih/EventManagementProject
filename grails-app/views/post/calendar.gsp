@@ -19,6 +19,9 @@
         outline: none;
         border: none;
     }
+    .fc-header-center{
+        visibility: hidden;
+    }
     </style>
 </head>
 
@@ -429,6 +432,7 @@
             <g:if test="${messageText}" >
             $("#messageModal").modal("show");
             </g:if>
+
 
 
             $("#comboboxTypeModal").change(function () {

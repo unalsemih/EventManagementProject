@@ -136,6 +136,7 @@ $(document).ready(function() {
 
                 if(data[0]==="ROLE_ADMIN"){
                     $('#eventCreateModal').modal('show');
+                    changeEventTypeCalendar();
                 }
 
             });

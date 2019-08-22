@@ -229,6 +229,11 @@ class PostController {
         redirect(action: "posts")
     }
 
+    @Secured(['ROLE_ADMIN'])
+    def getPost(int id){
+        def post = Post.get(id as int)
+        render post as JSON
+    }
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def posts(String eventType,int categoryId) {
@@ -290,6 +295,19 @@ class PostController {
 
         render(view:'posts',model:[allposts:Allposts,currentUser:currentUser,messageText:message,listPost:listPost,eventType:eventType,categoryList:categoryList])
 
+    }
+
+    @Secured(['ROLE_ADMIN'])
+    def editPost() {
+        def post = Post.get(params.id)
+        def p = new Post(params)
+        post.title=params.title
+        post.description=params.description
+        post.quota = params.quota as int
+        post.startDate = p.startDate
+        post.endDate = p.endDate
+        post.save(flush:true)
+       redirect(action: "posts")
     }
 
 
