@@ -56,7 +56,12 @@
                         <strong>${currentUser.username}
                             </strong>
                     </span>
-                    <span class="user-role">Administrator</span>
+        <sec:ifAllGranted roles="ROLE_ADMIN">
+                    <span class="user-role">Admin</span>
+        </sec:ifAllGranted>
+        <sec:ifAllGranted roles="ROLE_USER">
+            <span class="user-role">Default User</span>
+        </sec:ifAllGranted>
                     <span class="user-status">
                         <i class="fa fa-circle"></i>
                         <span>Online</span>
@@ -186,7 +191,7 @@
                                 </li>
                                 <g:if test="${ Person.get(currentUser.id).avatar != null}">
                                 <li>
-                                    <g:link controller="signUp"  action="removeAvatar" params="[targetUri: (request.forwardURI - request.contextPath)]">Profil Resmi Kaldır</g:link>
+                                    <g:link controller="signUp"  action="removeAvatar" params="[id:currentUser.id]">Profil Resmi Kaldır</g:link>
                                 </li>
                                 </g:if>
                             </ul>

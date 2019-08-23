@@ -508,7 +508,7 @@ button:focus {
                 $("#editModal").modal("show");
                 var id = $(this).attr("postId");
                 $.getJSON("http://localhost:8089/post/getPost?id="+id, function (data) {
-alert(id);
+
                     $("#titleEditModal").val(data.title);
                     $("#descriptionEditModal").val(data.description);
                     $("#quotaEditModal").val(""+data.quota);
@@ -679,6 +679,10 @@ alert(id);
             document.getElementById("startDateCalendar").setAttribute("min",""+convertMyDate(today));
             document.getElementById("endDateCalendar").setAttribute("min",""+convertMyDate(today));
 
+
+
+            document.getElementById("startEditModal").setAttribute("min",""+convertMyDate(today));
+            document.getElementById("endEditModal").setAttribute("min",""+convertMyDate(today));
 
 
 

@@ -26,19 +26,19 @@ class SignUpController {
         user.photo=true
         user.save(flush:true)
         def targetUri = params.targetUri ?: "/"
-        redirect(uri: targetUri)
+        redirect(controller:'post',action:'posts')
     }
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
-    def removeAvatar(){
-        def user = Person.findById(2)
+    def removeAvatar(int id){
+        def user = Person.get(id as int)
         // CommonsMultipartFile file = params.list("photo")?.getAt(0)
         // user.avatar = file?.bytes
         user.avatar = null
         user.photo=false
         user.save(flush:true)
-        def targetUri = params.targetUri ?: "/"
-        redirect(uri: targetUri)
+       // def targetUri = params.targetUri ?: "/"
+        redirect(controller:'post',action:'posts')
     }
 
 /*

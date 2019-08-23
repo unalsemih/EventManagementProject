@@ -34,8 +34,8 @@ class PostController {
 
 
             def post = new Post(params)
-            if(post.startDate.compareTo(post.endDate)>0) {
-                messageText="Başlangıç Tarihi Bitiş Tarihinden daha ileride olamaz!"
+            if(post.startDate.compareTo(post.endDate)>=0) {
+                messageText="Başlangıç Tarihi Bitiş Tarihine eşit ya da daha ileride olamaz!"
                 redirect(action: 'posts')
             }
             else {
@@ -110,13 +110,7 @@ class PostController {
 
     @Secured(['ROLE_ADMIN','ROLE_USER'])
     def join(int postId){
-/*
-        def query = Participation.where {
-            username:'semihunal'
-            postId:postId
-        }
-        Participation c =
-  */
+
 
         Participation a = Participation.findByPostIdAndUsername(postId,springSecurityService.getCurrentUser().username)
         if(a==null) // kullanıcı katılmamış ... katılma işlemi burada yapılıyor...
@@ -134,8 +128,6 @@ class PostController {
 
         }
             redirect(action:'posts')
-        //println("post : " + post + Post.get(7).title)
-        //render "postId"+postId + " -- " + participation.getUsername() + " -- " + participation.getPostId()
 
     }
 
@@ -157,8 +149,6 @@ class PostController {
 
         }
         redirect(action:'posts')
-        //println("post : " + post + Post.get(7).title)
-        //render "postId"+postId + " -- " + participation.getUsername() + " -- " + participation.getPostId()
 
     }
 
@@ -300,13 +290,20 @@ class PostController {
     @Secured(['ROLE_ADMIN'])
     def editPost() {
         def post = Post.get(params.id)
+
         def p = new Post(params)
-        post.title=params.title
-        post.description=params.description
-        post.quota = params.quota as int
-        post.startDate = p.startDate
-        post.endDate = p.endDate
-        post.save(flush:true)
+        if(post.quota>p.quota)
+            messageText="Kota düşürülemez!"
+        else {
+
+            post.title = params.title
+            post.description = params.description
+            post.quota = params.quota as int
+            post.startDate = p.startDate
+            post.endDate = p.endDate
+            post.save(flush: true)
+            messageText="Etkinlik Güncellendi"
+        }
        redirect(action: "posts")
     }
 
